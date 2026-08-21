@@ -1,0 +1,1059 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Acompanhamento DJEN & DataJud</title>
+  <style>
+    :root {
+      --bg: #0b0f19;
+      --card-bg: #151e2e;
+      --card-inner: #0d1524;
+      --border: #24324a;
+      --text: #f8fafc;
+      --text-muted: #94a3b8;
+      --primary: #2563eb;
+      --primary-hover: #1d4ed8;
+      --accent: #10b981;
+      --warning: #f59e0b;
+      --danger: #ef4444;
+      --wa-green: #25d366;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    }
+
+    body {
+      background-color: var(--bg);
+      color: var(--text);
+      padding: 1.25rem 1rem 3rem 1rem;
+      display: flex;
+      justify-content: center;
+    }
+
+    .container {
+      width: 100%;
+      max-width: 850px;
+      display: flex;
+      flex-direction: column;
+      gap: 1.25rem;
+    }
+
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 0.75rem;
+      border-bottom: 1px solid var(--border);
+      padding-bottom: 1rem;
+    }
+
+    .header-left {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+
+    .btn-home {
+      background: #1e293b;
+      color: var(--text);
+      border: 1px solid var(--border);
+      padding: 0.4rem 0.8rem;
+      border-radius: 6px;
+      font-size: 0.85rem;
+      cursor: pointer;
+    }
+
+    h1 {
+      font-size: 1.35rem;
+      font-weight: 700;
+    }
+
+    .badge-beta {
+      background: #7c3aed;
+      color: #fff;
+      font-size: 0.65rem;
+      padding: 0.15rem 0.4rem;
+      border-radius: 4px;
+      font-weight: bold;
+      text-transform: uppercase;
+    }
+
+    .banner-disclaimer {
+      background: rgba(245, 158, 11, 0.08);
+      border: 1px solid rgba(245, 158, 11, 0.3);
+      padding: 0.75rem 1rem;
+      border-radius: 8px;
+      font-size: 0.8rem;
+      line-height: 1.4;
+      color: #fde68a;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .banner-disclaimer a {
+      color: #93c5fd;
+      text-decoration: underline;
+      cursor: pointer;
+      white-space: nowrap;
+    }
+
+    .action-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0.75rem;
+    }
+
+    @media (max-width: 600px) {
+      .action-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .btn-action-tool {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      color: var(--text);
+      padding: 0.75rem 1rem;
+      border-radius: 8px;
+      font-size: 0.85rem;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      cursor: pointer;
+    }
+
+    .btn-action-tool:hover {
+      border-color: var(--primary);
+    }
+
+    .btn-sync-prominent {
+      background: linear-gradient(135deg, #2563eb, #1d4ed8);
+      color: #fff;
+      font-size: 0.95rem;
+      padding: 0.75rem 1.25rem;
+      font-weight: 700;
+      border-radius: 8px;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      box-shadow: 0 0 15px rgba(37, 99, 235, 0.3);
+      cursor: pointer;
+      width: 100%;
+    }
+
+    .names-status-banner {
+      padding: 0.65rem 1rem;
+      border-radius: 8px;
+      font-size: 0.85rem;
+      display: none;
+    }
+
+    .names-status-banner.has-mov {
+      display: block;
+      background: rgba(245, 158, 11, 0.15);
+      border: 1px solid var(--warning);
+      color: #fde68a;
+    }
+
+    .names-status-banner.no-mov {
+      display: block;
+      background: #1e293b;
+      border: 1px solid var(--border);
+      color: var(--text-muted);
+    }
+
+    .card {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 1.25rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+    }
+
+    .card-title {
+      font-size: 1rem;
+      font-weight: 600;
+      color: #93c5fd;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .input-row {
+      display: flex;
+      gap: 0.5rem;
+    }
+
+    input[type="text"], input[type="time"] {
+      flex: 1;
+      background: var(--card-inner);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 0.65rem 0.85rem;
+      color: var(--text);
+      font-size: 0.9rem;
+      outline: none;
+    }
+
+    input[type="text"]:focus, input[type="time"]:focus {
+      border-color: var(--primary);
+    }
+
+    button {
+      background: var(--primary);
+      color: #fff;
+      border: none;
+      border-radius: 8px;
+      padding: 0.65rem 1rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background-color 0.2s;
+    }
+
+    button:hover {
+      background: var(--primary-hover);
+    }
+
+    .detection-badge {
+      font-size: 0.75rem;
+      color: var(--text-muted);
+    }
+
+    .badge-type {
+      background: #334155;
+      padding: 0.15rem 0.4rem;
+      border-radius: 4px;
+      color: #fff;
+    }
+
+    .empty-result-box {
+      background: #1e293b;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 1.25rem;
+      font-size: 0.9rem;
+      line-height: 1.5;
+      color: #cbd5e1;
+    }
+
+    .empty-result-box strong {
+      color: var(--warning);
+    }
+
+    .empty-result-box ul {
+      margin: 0.5rem 0 0 1.25rem;
+      font-size: 0.85rem;
+      color: var(--text-muted);
+    }
+
+    .process-list {
+      display: flex;
+      flex-direction: column;
+      gap: 0.85rem;
+    }
+
+    .process-card {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      overflow: hidden;
+    }
+
+    .process-card.has-update {
+      border-color: var(--warning);
+      box-shadow: 0 0 8px rgba(245, 158, 11, 0.2);
+    }
+
+    .process-header {
+      padding: 0.85rem 1rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      cursor: pointer;
+    }
+
+    .custom-name {
+      font-size: 0.95rem;
+      font-weight: 700;
+      color: #fff;
+    }
+
+    .process-num {
+      font-weight: 600;
+      font-size: 0.9rem;
+      color: #93c5fd;
+    }
+
+    .badge-new {
+      background: var(--warning);
+      color: #000;
+      font-size: 0.65rem;
+      font-weight: bold;
+      padding: 0.15rem 0.4rem;
+      border-radius: 4px;
+      margin-left: 0.4rem;
+    }
+
+    .process-details {
+      display: none;
+      padding: 0.85rem 1rem;
+      background: var(--card-inner);
+      border-top: 1px solid var(--border);
+      flex-direction: column;
+      gap: 0.75rem;
+    }
+
+    .process-details.open {
+      display: flex;
+    }
+
+    .mov-item {
+      background: #090e17;
+      border-left: 3px solid var(--primary);
+      padding: 0.65rem 0.85rem;
+      border-radius: 0 6px 6px 0;
+      font-size: 0.85rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.4rem;
+    }
+
+    .mov-actions {
+      display: flex;
+      gap: 0.5rem;
+      flex-wrap: wrap;
+      margin-top: 0.25rem;
+    }
+
+    .btn-share {
+      background: #1f2d3d;
+      color: var(--wa-green);
+      font-size: 0.75rem;
+      padding: 0.35rem 0.6rem;
+    }
+
+    .btn-doubt {
+      background: #064e3b;
+      color: #a7f3d0;
+      font-size: 0.75rem;
+      padding: 0.35rem 0.6rem;
+      text-decoration: none;
+      border-radius: 6px;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.3rem;
+      font-weight: 600;
+    }
+
+    .btn-doubt:hover {
+      background: var(--wa-green);
+      color: #fff;
+    }
+
+    .modal-backdrop {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.8);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      z-index: 1000;
+      padding: 1rem;
+    }
+
+    .modal-backdrop.open {
+      display: flex;
+    }
+
+    .modal {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      padding: 1.25rem;
+      border-radius: 10px;
+      max-width: 500px;
+      width: 100%;
+      max-height: 85vh;
+      overflow-y: auto;
+      display: flex;
+      flex-direction: column;
+      gap: 0.85rem;
+    }
+
+    .modal h3 {
+      font-size: 1.1rem;
+      color: #fff;
+    }
+
+    .modal p, .modal li {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      line-height: 1.45;
+    }
+
+    .names-list {
+      display: flex;
+      flex-direction: column;
+      gap: 0.4rem;
+      margin-top: 0.5rem;
+    }
+
+    .name-chip-row {
+      background: var(--card-inner);
+      border: 1px solid var(--border);
+      padding: 0.5rem 0.75rem;
+      border-radius: 6px;
+      font-size: 0.85rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .name-chip-row button {
+      background: transparent;
+      padding: 0.2rem 0.5rem;
+      color: var(--danger);
+      font-size: 0.85rem;
+    }
+
+    .name-chip-row button:hover {
+      background: rgba(239, 68, 68, 0.15);
+      border-radius: 4px;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    
+    <header>
+      <div class="header-left">
+        <button class="btn-home" id="btnHome">🏠 Home</button>
+        <h1>Acompanhamento DJEN <span class="badge-beta">Beta</span></h1>
+      </div>
+      <div style="font-size: 0.85rem; color: var(--text-muted);">
+        Processos: <strong id="count" style="color: var(--accent);">0</strong>/20
+      </div>
+    </header>
+
+    <div class="banner-disclaimer">
+      <span>⚠️ <strong>Aviso Legal:</strong> Aplicativo em versão Beta informativa. Não substitui os diários oficiais.</span>
+      <a id="btnOpenTerms">LGPD & Termos</a>
+    </div>
+
+    <div class="action-grid">
+      <button class="btn-action-tool" id="btnOpenReminderModal">
+        <span>⏰ Lembrete Seg a Sex</span>
+        <span id="reminderLabel" style="font-size:0.75rem; color:var(--text-muted);">Configurar</span>
+      </button>
+
+      <button class="btn-action-tool" id="btnOpenNamesModal">
+        <span>👥 Nomes para Monitorar</span>
+        <span id="namesLabel" style="font-size:0.75rem; color:var(--accent);">0/5 cadastrados</span>
+      </button>
+    </div>
+
+    <div class="names-status-banner" id="namesStatusBanner"></div>
+
+    <button class="btn-sync-prominent" id="btnSyncAll">
+      🔄 Verificar Novas Publicações Agora
+    </button>
+
+    <!-- Consulta -->
+    <div class="card">
+      <div class="card-title"><span>🔍 Consulta</span></div>
+      <div class="input-row">
+        <input type="text" id="unifiedInput" placeholder="Ex: Nome da Parte, 000000/XX ou 0000000-00.0000.0.00.0000" autocomplete="off" />
+        <button id="btnSearch">Buscar</button>
+      </div>
+      <div class="detection-badge">
+        Reconhecido como: <span class="badge-type" id="detectedType">Aguardando entrada...</span>
+      </div>
+    </div>
+
+    <div id="statusMessage" style="font-size: 0.85rem; color: var(--text-muted); min-height: 1rem;"></div>
+
+    <div id="searchResultsArea" style="display: none;">
+      <div style="font-weight: 600; margin-bottom: 0.5rem;">Resultado da Busca:</div>
+      <div class="process-list" id="searchResultsList"></div>
+    </div>
+
+    <div>
+      <div style="font-weight: 600; margin-bottom: 0.5rem;">Meus Processos Cadastrados:</div>
+      <div class="process-list" id="savedList"></div>
+    </div>
+
+  </div>
+
+  <!-- POPUP 1: Lembrete de Segunda a Sexta -->
+  <div class="modal-backdrop" id="reminderModal">
+    <div class="modal">
+      <h3>⏰ Lembrete de Segunda a Sexta</h3>
+      <p>Configure o horário para o aplicativo lembrar você de checar as publicações nos dias úteis:</p>
+      <div class="input-row">
+        <input type="time" id="reminderTime" value="09:00" />
+        <button id="btnSaveReminder">Ativar Alarme</button>
+      </div>
+      <p style="font-size: 0.75rem; color: var(--text-muted);">
+        O lembrete emite uma notificação no dispositivo de segunda a sexta-feira.
+      </p>
+      <div style="text-align: right; margin-top: 0.5rem;">
+        <button class="btn-cancel" id="btnCloseReminder" style="background:#334155;">Fechar</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- POPUP 2: Cadastro de até 5 Nomes -->
+  <div class="modal-backdrop" id="namesModal">
+    <div class="modal">
+      <h3>👥 Nomes para Monitoramento</h3>
+      <p>Cadastre até 5 nomes ou números de OAB para monitoramento periódico:</p>
+      <div class="input-row">
+        <input type="text" id="inputAutoName" placeholder="Ex: Nome da Parte ou 000000/XX" />
+        <button id="btnAddAutoName">+ Adicionar</button>
+      </div>
+      <div class="names-list" id="autoNamesContainer"></div>
+      <div style="text-align: right; margin-top: 0.5rem;">
+        <button id="btnCloseNames" style="background:#334155;">Concluir</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- POPUP 3: LGPD & Termos Beta -->
+  <div class="modal-backdrop" id="termsModal">
+    <div class="modal">
+      <h3>Termos de Uso, Versão Beta e LGPD</h3>
+      <p><strong>1. Natureza Informativa (Beta):</strong> Este aplicativo é uma ferramenta de apoio para conferência de dados públicos. As informações são obtidas via API pública do Diário de Justiça Eletrônico Nacional (DJEN/CNJ) e DataJud. O aplicativo <strong>NÃO produz efeitos legais de citação ou intimação processual</strong>. Prazos e atos devem ser sempre conferidos nos autos oficiais.</p>
+      <p><strong>2. Privacidade e LGPD (Lei 13.709/2018):</strong> Os dados de processos e nomes monitorados são armazenados <strong>exclusivamente no armazenamento local do seu próprio dispositivo (LocalStorage)</strong>. Não coletamos nem vendemos seus dados pessoais.</p>
+      <p><strong>3. Dados Públicos:</strong> O acesso a publicações judiciais obedece ao princípio da publicidade dos atos processuais (Art. 5º, LX e Art. 93, IX da CF/88).</p>
+      <div style="text-align: right; margin-top: 0.5rem;">
+        <button id="btnCloseTerms" style="background: var(--primary);">Entendido e Aceito</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- POPUP 4: Confirmação de Exclusão de Processo -->
+  <div class="modal-backdrop" id="deleteModal">
+    <div class="modal">
+      <h3 style="color: var(--danger);">Excluir Processo</h3>
+      <p>Para confirmar a remoção definitiva do processo <strong id="deleteTargetNum" style="color:#fff;"></strong>, digite a palavra <strong style="color:var(--danger);">apagar</strong> abaixo:</p>
+      <input type="text" id="deleteConfirmInput" placeholder="Digite 'apagar'" />
+      <div style="display:flex; justify-content:flex-end; gap:0.5rem;">
+        <button style="background:#334155;" id="btnCancelDelete">Cancelar</button>
+        <button id="btnConfirmDelete" style="background:var(--danger);" disabled>Confirmar</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- POPUP 5: Confirmação de Exclusão de Nome Monitorado -->
+  <div class="modal-backdrop" id="deleteNameModal">
+    <div class="modal">
+      <h3 style="color: var(--danger);">Remover Nome Monitorado</h3>
+      <p>Deseja remover <strong id="deleteTargetName" style="color:#fff;"></strong> do monitoramento?</p>
+      <p>Para confirmar a exclusão, digite a palavra <strong style="color:var(--danger);">apagar</strong> abaixo:</p>
+      <input type="text" id="deleteNameConfirmInput" placeholder="Digite 'apagar'" />
+      <div style="display:flex; justify-content:flex-end; gap:0.5rem;">
+        <button style="background:#334155;" id="btnCancelDeleteName">Cancelar</button>
+        <button id="btnConfirmDeleteName" style="background:var(--danger);" disabled>Confirmar</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const API_URL = 'https://comunicaapi.pje.jus.br/api/v1/comunicacao';
+    const MAX_PROCESSOS = 20;
+    const MAX_NOMES_AUTO = 5;
+
+    let savedProcesses = JSON.parse(localStorage.getItem('tracked_processes') || '[]');
+    let autoNames = JSON.parse(localStorage.getItem('auto_tracked_names') || '[]');
+    let reminderConfig = JSON.parse(localStorage.getItem('app_reminder_config') || '{"enabled": false, "time": "09:00"}');
+
+    const input = document.getElementById('unifiedInput');
+    const detectedTypeBadge = document.getElementById('detectedType');
+    const statusMsg = document.getElementById('statusMessage');
+    const searchResultsArea = document.getElementById('searchResultsArea');
+    const searchResultsList = document.getElementById('searchResultsList');
+    const savedList = document.getElementById('savedList');
+    const countDisplay = document.getElementById('count');
+    const namesLabel = document.getElementById('namesLabel');
+    const reminderLabel = document.getElementById('reminderLabel');
+    const namesStatusBanner = document.getElementById('namesStatusBanner');
+    const autoNamesContainer = document.getElementById('autoNamesContainer');
+
+    const reminderModal = document.getElementById('reminderModal');
+    const namesModal = document.getElementById('namesModal');
+    const termsModal = document.getElementById('termsModal');
+    const deleteModal = document.getElementById('deleteModal');
+    const deleteTargetNum = document.getElementById('deleteTargetNum');
+    const deleteConfirmInput = document.getElementById('deleteConfirmInput');
+    const btnConfirmDelete = document.getElementById('btnConfirmDelete');
+    let processPendingDeletion = null;
+
+    // Modal de exclusão de nome
+    const deleteNameModal = document.getElementById('deleteNameModal');
+    const deleteTargetName = document.getElementById('deleteTargetName');
+    const deleteNameConfirmInput = document.getElementById('deleteNameConfirmInput');
+    const btnConfirmDeleteName = document.getElementById('btnConfirmDeleteName');
+    let nameIndexPendingDeletion = null;
+
+    function identifyInputType(val) {
+      const clean = val.trim();
+      const digits = clean.replace(/\D/g, '');
+
+      if (digits.length === 20 || /^\d{7}-\d{2}\.\d{4}\.\d\.\d{2}\.\d{4}$/.test(clean)) {
+        return { type: 'PROCESSO', value: clean };
+      }
+      const oabMatch = clean.match(/^(\d{3,7})\s*[\/-]?\s*([A-Za-z]{2})?$/);
+      if (oabMatch) {
+        return { type: 'OAB', numero: oabMatch[1], uf: (oabMatch[2] || 'SP').toUpperCase() };
+      }
+      if (clean.length > 2) {
+        return { type: 'NOME', value: clean };
+      }
+      return { type: 'DESCONHECIDO', value: clean };
+    }
+
+    input.addEventListener('input', () => {
+      const info = identifyInputType(input.value);
+      if (!input.value.trim()) {
+        detectedTypeBadge.textContent = 'Aguardando entrada...';
+        return;
+      }
+      if (info.type === 'PROCESSO') detectedTypeBadge.textContent = 'Número CNJ';
+      else if (info.type === 'OAB') detectedTypeBadge.textContent = `OAB ${info.numero}/${info.uf}`;
+      else if (info.type === 'NOME') detectedTypeBadge.textContent = 'Nome de Advogado/Parte';
+      else detectedTypeBadge.textContent = 'Texto muito curto';
+    });
+
+    async function fetchCommunications(queryParams) {
+      const url = new URL(API_URL);
+      url.searchParams.append('itensPorPagina', 50);
+      url.searchParams.append('pagina', 1);
+
+      Object.keys(queryParams).forEach(k => {
+        if (queryParams[k]) url.searchParams.append(k, queryParams[k]);
+      });
+
+      const res = await fetch(url.toString(), { headers: { 'Accept': 'application/json' } });
+      if (!res.ok) throw new Error('Falha no servidor do DJEN');
+      const data = await res.json();
+      return data.items || data.comunicacoes || [];
+    }
+
+    function groupByProcess(items) {
+      const grouped = {};
+      items.forEach(it => {
+        const num = it.numeroProcesso || it.numero_processo || it.processo || 'Sem Número';
+        if (!grouped[num]) {
+          grouped[num] = {
+            numero: num,
+            tribunal: it.nomeOrgao || it.siglaTribunal || 'Tribunal não informado',
+            lastUpdate: it.dataDisponibilizacao || it.data_disponibilizacao || '',
+            movimentacoes: []
+          };
+        }
+        grouped[num].movimentacoes.push({
+          id: it.id || Math.random().toString(),
+          data: it.dataDisponibilizacao || it.data_disponibilizacao || 'Data N/A',
+          texto: it.texto || it.conteudo || 'Sem texto disponível.',
+          orgao: it.nomeOrgao || it.siglaTribunal || ''
+        });
+      });
+      return Object.values(grouped);
+    }
+
+    document.getElementById('btnSearch').addEventListener('click', async () => {
+      const text = input.value.trim();
+      if (!text) return;
+
+      const detection = identifyInputType(text);
+      let query = {};
+
+      if (detection.type === 'PROCESSO') query.numeroProcesso = detection.value.replace(/\D/g, '');
+      else if (detection.type === 'OAB') { query.numeroOab = detection.numero; query.ufOab = detection.uf; }
+      else if (detection.type === 'NOME') query.nomeAdvogado = detection.value;
+      else {
+        alert('Digite um Processo, OAB ou Nome válido.');
+        return;
+      }
+
+      statusMsg.textContent = 'Consultando publicações no DJEN...';
+      searchResultsList.innerHTML = '';
+      searchResultsArea.style.display = 'block';
+
+      try {
+        const rawItems = await fetchCommunications(query);
+        if (rawItems.length === 0) {
+          statusMsg.textContent = '';
+          searchResultsList.innerHTML = `
+            <div class="empty-result-box">
+              <strong>Nenhuma publicação foi encontrada para esta busca.</strong>
+              <p style="margin-top: 0.35rem;">Motivos frequentes:</p>
+              <ul>
+                <li><strong>1. Grafia ou Parâmetro:</strong> Verifique se o nome foi digitado sem erros ou se a UF da OAB está correta.</li>
+                <li><strong>2. Ausência de Publicação Recente:</strong> Realmente não há publicações disponibilizadas para este registro no período.</li>
+              </ul>
+            </div>
+          `;
+          return;
+        }
+
+        statusMsg.textContent = '';
+        const processes = groupByProcess(rawItems);
+        renderProcessList(processes, searchResultsList, true);
+      } catch (err) {
+        statusMsg.textContent = 'Erro ao consultar DJEN: ' + err.message;
+      }
+    });
+
+    function renderProcessList(list, targetElement, isSearchResult = false) {
+      targetElement.innerHTML = '';
+      if (list.length === 0 && !isSearchResult) {
+        targetElement.innerHTML = '<p style="color: var(--text-muted); font-size: 0.85rem;">Nenhum processo salvo no momento.</p>';
+        return;
+      }
+
+      list.forEach((proc, idx) => {
+        const isSaved = savedProcesses.some(p => p.numero === proc.numero);
+        const card = document.createElement('div');
+        card.className = `process-card ${proc.hasNewUpdate ? 'has-update' : ''}`;
+
+        const customNameHtml = proc.customName ? `<div class="custom-name">📌 ${proc.customName}</div>` : '';
+
+        card.innerHTML = `
+          <div class="process-header" onclick="toggleDetails('${isSearchResult ? 'sr' : 'sv'}_${idx}')">
+            <div>
+              ${customNameHtml}
+              <div class="process-num">
+                ${proc.numero}
+                ${proc.hasNewUpdate ? `<span class="badge-new">● Atualizado (${proc.lastUpdate})</span>` : ''}
+              </div>
+              <div style="font-size:0.75rem; color:var(--text-muted);">${proc.tribunal} | Última pub: ${proc.lastUpdate || 'N/A'}</div>
+            </div>
+            <div onclick="event.stopPropagation()">
+              ${isSearchResult && !isSaved ? `<button class="btn-save" style="background:var(--accent); font-size:0.75rem;" onclick="promptSaveProcess('${encodeURIComponent(JSON.stringify(proc))}')">+ Salvar</button>` : ''}
+              ${!isSearchResult ? `<button style="background:transparent; color:var(--text-muted); font-size:0.8rem;" onclick="openDeleteModal('${proc.numero}')">🗑️</button>` : ''}
+            </div>
+          </div>
+          <div class="process-details" id="${isSearchResult ? 'sr' : 'sv'}_${idx}">
+            ${proc.movimentacoes.map(m => `
+              <div class="mov-item">
+                <div style="display:flex; justify-content:space-between; font-size:0.75rem; color:var(--text-muted);">
+                  <span><strong>Disponibilização:</strong> ${m.data}</span>
+                  <span>${m.orgao}</span>
+                </div>
+                <div style="line-height:1.4; color:#cbd5e1; white-space:pre-wrap; max-height:150px; overflow-y:auto;">${m.texto}</div>
+                <div class="mov-actions">
+                  <button class="btn-share" onclick="shareMov('${proc.customName || ''}', '${proc.numero}', '${m.data}', \`${encodeURIComponent(m.texto)}\`)">
+                    Compartilhar
+                  </button>
+                  <a class="btn-doubt" href="https://wa.me/5521920104334?text=Ol%C3%A1%2C+preciso+de+ajuda+com+esta+movimenta%C3%A7%C3%A3o+do+processo+${proc.numero}+de+data+${m.data}" target="_blank">
+                    💬 Tire sua dúvida
+                  </a>
+                </div>
+              </div>
+            `).join('')}
+          </div>
+        `;
+        targetElement.appendChild(card);
+      });
+    }
+
+    window.toggleDetails = function(id) {
+      const el = document.getElementById(id);
+      if (el) el.classList.toggle('open');
+    };
+
+    window.promptSaveProcess = function(jsonStr) {
+      if (savedProcesses.length >= MAX_PROCESSOS) {
+        alert(`Limite de ${MAX_PROCESSOS} processos atingido!`);
+        return;
+      }
+      const proc = JSON.parse(decodeURIComponent(jsonStr));
+      const customName = prompt('Deseja dar um apelido a este processo? (Ex: Ação Trabalhista):', '');
+      
+      if (customName !== null) {
+        proc.customName = customName.trim();
+        proc.savedAt = new Date().toISOString();
+        proc.lastKnownUpdate = proc.lastUpdate;
+        proc.hasNewUpdate = false;
+        savedProcesses.push(proc);
+        persistAndRender();
+        alert('Processo cadastrado com sucesso!');
+      }
+    };
+
+    // Modal de Exclusão de Processo
+    window.openDeleteModal = function(numero) {
+      processPendingDeletion = numero;
+      deleteTargetNum.textContent = numero;
+      deleteConfirmInput.value = '';
+      btnConfirmDelete.disabled = true;
+      deleteModal.classList.add('open');
+      deleteConfirmInput.focus();
+    };
+
+    deleteConfirmInput.addEventListener('input', () => {
+      btnConfirmDelete.disabled = (deleteConfirmInput.value.trim().toLowerCase() !== 'apagar');
+    });
+
+    document.getElementById('btnCancelDelete').addEventListener('click', () => {
+      deleteModal.classList.remove('open');
+      processPendingDeletion = null;
+    });
+
+    btnConfirmDelete.addEventListener('click', () => {
+      if (processPendingDeletion && deleteConfirmInput.value.trim().toLowerCase() === 'apagar') {
+        savedProcesses = savedProcesses.filter(p => p.numero !== processPendingDeletion);
+        persistAndRender();
+        deleteModal.classList.remove('open');
+        processPendingDeletion = null;
+      }
+    });
+
+    // Modal de Exclusão de Nome Monitorado
+    window.openDeleteNameModal = function(idx) {
+      nameIndexPendingDeletion = idx;
+      deleteTargetName.textContent = autoNames[idx];
+      deleteNameConfirmInput.value = '';
+      btnConfirmDeleteName.disabled = true;
+      deleteNameModal.classList.add('open');
+      deleteNameConfirmInput.focus();
+    };
+
+    deleteNameConfirmInput.addEventListener('input', () => {
+      btnConfirmDeleteName.disabled = (deleteNameConfirmInput.value.trim().toLowerCase() !== 'apagar');
+    });
+
+    document.getElementById('btnCancelDeleteName').addEventListener('click', () => {
+      deleteNameModal.classList.remove('open');
+      nameIndexPendingDeletion = null;
+    });
+
+    btnConfirmDeleteName.addEventListener('click', () => {
+      if (nameIndexPendingDeletion !== null && deleteNameConfirmInput.value.trim().toLowerCase() === 'apagar') {
+        autoNames.splice(nameIndexPendingDeletion, 1);
+        localStorage.setItem('auto_tracked_names', JSON.stringify(autoNames));
+        renderAutoNamesModal();
+        silentCheckNames();
+        deleteNameModal.classList.remove('open');
+        nameIndexPendingDeletion = null;
+      }
+    });
+
+    window.shareMov = function(customName, procNum, data, encodedTexto) {
+      const texto = decodeURIComponent(encodedTexto);
+      const title = customName ? `*Identificação:* ${customName}\n` : '';
+      const msg = `⚖️ *Atualização DJEN*\n${title}*Processo:* ${procNum}\n*Data:* ${data}\n\n*Publicação:* \n${texto.substring(0, 700)}${texto.length > 700 ? '...' : ''}`;
+      window.open(`https://api.whatsapp.com/send?text=${encodeURIComponent(msg)}`, '_blank');
+    };
+
+    document.getElementById('btnOpenNamesModal').addEventListener('click', () => {
+      renderAutoNamesModal();
+      namesModal.classList.add('open');
+    });
+    document.getElementById('btnCloseNames').addEventListener('click', () => namesModal.classList.remove('open'));
+
+    function renderAutoNamesModal() {
+      autoNamesContainer.innerHTML = '';
+      namesLabel.textContent = `${autoNames.length}/${MAX_NOMES_AUTO} cadastrados`;
+
+      autoNames.forEach((item, index) => {
+        const row = document.createElement('div');
+        row.className = 'name-chip-row';
+        row.innerHTML = `
+          <span>👤 ${item}</span>
+          <button onclick="openDeleteNameModal(${index})">🗑️ Apagar</button>
+        `;
+        autoNamesContainer.appendChild(row);
+      });
+    }
+
+    document.getElementById('btnAddAutoName').addEventListener('click', () => {
+      const val = document.getElementById('inputAutoName').value.trim();
+      if (!val) return;
+      if (autoNames.length >= MAX_NOMES_AUTO) {
+        alert(`Limite de ${MAX_NOMES_AUTO} nomes atingido.`);
+        return;
+      }
+      if (!autoNames.includes(val)) {
+        autoNames.push(val);
+        localStorage.setItem('auto_tracked_names', JSON.stringify(autoNames));
+        document.getElementById('inputAutoName').value = '';
+        renderAutoNamesModal();
+        silentCheckNames();
+      }
+    });
+
+    async function silentCheckNames() {
+      if (autoNames.length === 0) {
+        namesStatusBanner.style.display = 'none';
+        return;
+      }
+
+      let totalNovasPublicacoes = 0;
+
+      for (let item of autoNames) {
+        const det = identifyInputType(item);
+        let q = {};
+        if (det.type === 'OAB') { q.numeroOab = det.numero; q.ufOab = det.uf; }
+        else { q.nomeAdvogado = item; }
+
+        try {
+          const raw = await fetchCommunications(q);
+          const procs = groupByProcess(raw);
+          if (procs.length > 0) {
+            totalNovasPublicacoes += procs.length;
+            procs.forEach(p => {
+              const exists = savedProcesses.find(sp => sp.numero === p.numero);
+              if (!exists && savedProcesses.length < MAX_PROCESSOS) {
+                p.customName = `Monitorado: ${item}`;
+                p.hasNewUpdate = true;
+                savedProcesses.push(p);
+              }
+            });
+          }
+        } catch (e) {
+          console.error('Erro na checagem do nome:', item, e);
+        }
+      }
+
+      persistAndRender();
+
+      if (totalNovasPublicacoes > 0) {
+        namesStatusBanner.className = 'names-status-banner has-mov';
+        namesStatusBanner.innerHTML = `🔔 <strong>Movimentação identificada:</strong> Há publicações recentes para os nomes cadastrados.`;
+      } else {
+        namesStatusBanner.className = 'names-status-banner no-mov';
+        namesStatusBanner.innerHTML = `ℹ️ <strong>Nenhuma nova movimentação</strong> encontrada para os nomes cadastrados no momento.`;
+      }
+    }
+
+    document.getElementById('btnOpenReminderModal').addEventListener('click', () => {
+      if (reminderConfig.time) {
+        document.getElementById('reminderTime').value = reminderConfig.time;
+      }
+      reminderModal.classList.add('open');
+    });
+    document.getElementById('btnCloseReminder').addEventListener('click', () => reminderModal.classList.remove('open'));
+
+    document.getElementById('btnSaveReminder').addEventListener('click', async () => {
+      const timeVal = document.getElementById('reminderTime').value;
+      if (!timeVal) return;
+
+      if ('Notification' in window) {
+        const permission = await Notification.requestPermission();
+        if (permission === 'granted') {
+          reminderConfig = { enabled: true, time: timeVal };
+          localStorage.setItem('app_reminder_config', JSON.stringify(reminderConfig));
+          updateReminderLabel();
+          reminderModal.classList.remove('open');
+          alert(`Lembrete ativado para às ${timeVal} (de Segunda a Sexta)!`);
+        } else {
+          alert('Permissão de notificações foi negada.');
+        }
+      } else {
+        alert('Notificações não suportadas neste navegador.');
+      }
+    });
+
+    function updateReminderLabel() {
+      if (reminderConfig.enabled) {
+        reminderLabel.textContent = `Ativo: ${reminderConfig.time}`;
+        reminderLabel.style.color = 'var(--accent)';
+      } else {
+        reminderLabel.textContent = 'Configurar';
+        reminderLabel.style.color = 'var(--text-muted)';
+      }
+    }
+
+    function checkReminderAlarm() {
+      if (!reminderConfig.enabled) return;
+
+      const now = new Date();
+      const dayOfWeek = now.getDay();
+      
+      if (dayOfWeek >= 1 && dayOfWeek <= 5) {
+        const currentTime = now.toTimeString().substring(0, 5);
+        const lastSentDate = localStorage.getItem('last_reminder_date');
+        const todayStr = now.toISOString().split('T')[0];
+
+        if (currentTime === reminderConfig.time && lastSentDate !== todayStr) {
+          localStorage.setItem('last_reminder_date', todayStr);
+          if (Notification.permission === 'granted') {
+            new Notification('Acompanhamento DJEN', {
+              body: 'Hora de checar se saíram novas publicações e intimações nos diários de hoje!',
+              icon: 'https://cdn-icons-png.flaticon.com/512/3135/3135715.png'
+            });
+          }
+        }
+      }
+    }
+
+    async function syncSavedProcesses() {
+      if (savedProcesses.length === 0) return;
+      statusMsg.textContent = 'Verificando atualizações dos processos...';
+
+      for (let p of savedProcesses) {
+        try {
+          const raw = await fetchCommunications({ numeroProcesso: p.numero.replace(/\D/g, '') });
+          const grouped = groupByProcess(raw);
+          if (grouped.length > 0) {
+            const latest = grouped[0];
+            if (latest.lastUpdate !== p.lastKnownUpdate) {
+              p.hasNewUpdate = true;
+              p.lastUpdate = latest.lastUpdate;
+              p.movimentacoes = latest.movimentacoes;
+            }
+          }
+        } catch (e) {
+          console.error(e);
+        }
+      }
+      statusMsg.textContent = 'Verificação finalizada!';
+      persistAndRender();
+      setTimeout(() => { if (statusMsg.textContent.includes('finalizada')) statusMsg.textContent = ''; }, 3000);
+    }
+
+    document.getElementById('btnSyncAll').addEventListener('click', syncSavedProcesses);
+
+    document.getElementById('btnHome').addEventListener('click', () => {
+      input.value = '';
+      detectedTypeBadge.textContent = 'Aguardando entrada...';
+      searchResultsArea.style.display = 'none';
+      searchResultsList.innerHTML = '';
+      statusMsg.textContent = '';
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+
+    document.getElementById('btnOpenTerms').addEventListener('click', () => termsModal.classList.add('open'));
+    document.getElementById('btnCloseTerms').addEventListener('click', () => termsModal.classList.remove('open'));
+
+    function persistAndRender() {
+      localStorage.setItem('tracked_processes', JSON.stringify(savedProcesses));
+      countDisplay.textContent = savedProcesses.length;
+      renderProcessList(savedProcesses, savedList, false);
+    }
+
+    persistAndRender();
+    updateReminderLabel();
+    renderAutoNamesModal();
+
+    syncSavedProcesses();
+    silentCheckNames();
+
+    setInterval(checkReminderAlarm, 30000);
+  </script>
+</body>
+</html>
