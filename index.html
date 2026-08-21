@@ -145,7 +145,7 @@
       gap: 0.5rem;
     }
 
-    input[type="text"], input[type="time"] {
+    input[type="text"], input[type="time"], select {
       flex: 1;
       background: var(--card-inner);
       border: 1px solid var(--border);
@@ -156,7 +156,7 @@
       outline: none;
     }
 
-    input[type="text"]:focus, input[type="time"]:focus {
+    input[type="text"]:focus, input[type="time"]:focus, select:focus {
       border-color: var(--primary);
     }
 
@@ -207,6 +207,48 @@
       color: var(--text-muted);
     }
 
+    /* Filtro por Tags */
+    .tag-filter-bar {
+      display: flex;
+      gap: 0.4rem;
+      overflow-x: auto;
+      padding-bottom: 0.35rem;
+      margin-bottom: 0.75rem;
+    }
+
+    .tag-chip {
+      background: #1e293b;
+      color: var(--text-muted);
+      border: 1px solid var(--border);
+      padding: 0.3rem 0.7rem;
+      border-radius: 20px;
+      font-size: 0.75rem;
+      cursor: pointer;
+      white-space: nowrap;
+    }
+
+    .tag-chip.active {
+      background: var(--primary);
+      color: #fff;
+      border-color: var(--primary);
+      font-weight: 600;
+    }
+
+    .tag-badge {
+      font-size: 0.65rem;
+      padding: 0.15rem 0.45rem;
+      border-radius: 4px;
+      font-weight: 600;
+      text-transform: uppercase;
+      margin-left: 0.35rem;
+    }
+    .tag-Geral { background: #334155; color: #f8fafc; }
+    .tag-Urgente { background: #7f1d1d; color: #fecaca; }
+    .tag-Trabalhista { background: #065f46; color: #a7f3d0; }
+    .tag-Cível { background: #1e3a8a; color: #bfdbfe; }
+    .tag-Família { background: #831843; color: #fbcfe8; }
+    .tag-Concluído { background: #374151; color: #9ca3af; }
+
     .process-list {
       display: flex;
       flex-direction: column;
@@ -237,6 +279,9 @@
       font-size: 0.95rem;
       font-weight: 700;
       color: #fff;
+      display: flex;
+      align-items: center;
+      gap: 0.35rem;
     }
 
     .process-num {
@@ -268,11 +313,18 @@
       display: flex;
     }
 
+    .process-actions-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      margin-bottom: 0.35rem;
+    }
+
     .tab-bar {
       display: flex;
       gap: 0.5rem;
-      border-bottom: 1px solid var(--border);
-      padding-bottom: 0.4rem;
     }
 
     .tab-btn {
@@ -289,6 +341,18 @@
       background: #334155;
       color: #fff;
       font-weight: 700;
+    }
+
+    .btn-pdf {
+      background: #334155;
+      color: #f8fafc;
+      font-size: 0.75rem;
+      padding: 0.35rem 0.65rem;
+      border-radius: 4px;
+    }
+
+    .btn-pdf:hover {
+      background: #475569;
     }
 
     .mov-item {
@@ -339,7 +403,70 @@
       color: #fff;
     }
 
-    /* Rodapé com Aviso Legal e LGPD */
+    .pagination-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0.75rem 0;
+      margin-top: 0.5rem;
+    }
+
+    .pagination-bar button {
+      background: #1e293b;
+      border: 1px solid var(--border);
+      padding: 0.4rem 0.8rem;
+      font-size: 0.8rem;
+    }
+
+    .pagination-bar button:disabled {
+      opacity: 0.4;
+      cursor: not-allowed;
+    }
+
+    .pagination-info {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+    }
+
+    .promo-card {
+      background: linear-gradient(135deg, #1e293b, #0f172a);
+      border: 1px solid #3b82f6;
+      border-radius: 10px;
+      padding: 1rem;
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+      margin-top: 0.5rem;
+    }
+
+    .promo-card h4 {
+      color: #93c5fd;
+      font-size: 0.95rem;
+    }
+
+    .promo-card p {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+    }
+
+    .promo-link {
+      color: #fff;
+      background: var(--primary);
+      padding: 0.5rem 1rem;
+      border-radius: 6px;
+      text-decoration: none;
+      font-size: 0.85rem;
+      font-weight: 700;
+      align-self: center;
+      display: inline-block;
+      margin-top: 0.25rem;
+    }
+
+    .promo-link:hover {
+      background: var(--primary-hover);
+    }
+
     footer {
       margin-top: 1.5rem;
       border-top: 1px solid var(--border);
@@ -407,6 +534,42 @@
       color: var(--text-muted);
       line-height: 1.45;
     }
+
+    /* Estilos de Impressão / PDF */
+    @media print {
+      body {
+        background: #fff !important;
+        color: #000 !important;
+        padding: 0 !important;
+      }
+      header, .action-row, .btn-sync-prominent, .card, .tag-filter-bar,
+      #searchResultsArea, .promo-card, footer, .modal-backdrop, .mov-actions, .btn-pdf, .tab-bar {
+        display: none !important;
+      }
+      .container {
+        max-width: 100% !important;
+      }
+      .process-card {
+        border: none !important;
+        box-shadow: none !important;
+      }
+      .process-details {
+        display: flex !important;
+        background: transparent !important;
+        border: none !important;
+        padding: 0 !important;
+      }
+      .mov-item {
+        background: transparent !important;
+        border: 1px solid #ccc !important;
+        color: #000 !important;
+        page-break-inside: avoid;
+        margin-bottom: 1rem !important;
+      }
+      .mov-item * {
+        color: #000 !important;
+      }
+    }
   </style>
 </head>
 <body>
@@ -423,7 +586,6 @@
       </div>
     </header>
 
-    <!-- Botão de Lembrete de Seg a Sex -->
     <div class="action-row">
       <button class="btn-action-tool" id="btnOpenReminderModal">
         <span>⏰ Lembrete Seg a Sex</span>
@@ -431,12 +593,10 @@
       </button>
     </div>
 
-    <!-- Botão de Sincronização -->
     <button class="btn-sync-prominent" id="btnSyncAll">
       🔄 Sincronizar DJEN & DataJud Agora
     </button>
 
-    <!-- Consulta -->
     <div class="card">
       <div class="card-title"><span>🔍 Consulta</span></div>
       <div class="input-row">
@@ -450,17 +610,43 @@
 
     <div id="statusMessage" style="font-size: 0.85rem; color: var(--text-muted); min-height: 1rem;"></div>
 
+    <!-- Resultados da Busca com Paginação -->
     <div id="searchResultsArea" style="display: none;">
       <div style="font-weight: 600; margin-bottom: 0.5rem;">Resultado da Busca:</div>
       <div class="process-list" id="searchResultsList"></div>
+      
+      <div class="pagination-bar" id="paginationControls" style="display: none;">
+        <button id="btnPrevPage">⬅ Anterior</button>
+        <span class="pagination-info" id="pageInfo">Página 1 de 1</span>
+        <button id="btnNextPage">Próxima ➡</button>
+      </div>
     </div>
 
+    <!-- Processos Cadastrados com Filtro por Categoria -->
     <div>
-      <div style="font-weight: 600; margin-bottom: 0.5rem;">Meus Processos Cadastrados:</div>
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem;">
+        <span style="font-weight: 600;">Meus Processos Cadastrados:</span>
+      </div>
+
+      <!-- Barra de Filtro de Tags -->
+      <div class="tag-filter-bar" id="tagFilterBar">
+        <button class="tag-chip active" onclick="filterByTag('Todos')">Todos</button>
+        <button class="tag-chip" onclick="filterByTag('Urgente')">🚨 Urgente</button>
+        <button class="tag-chip" onclick="filterByTag('Trabalhista')">💼 Trabalhista</button>
+        <button class="tag-chip" onclick="filterByTag('Cível')">⚖️ Cível</button>
+        <button class="tag-chip" onclick="filterByTag('Família')">👨‍👩‍👧 Família</button>
+        <button class="tag-chip" onclick="filterByTag('Concluído')">✅ Concluído</button>
+      </div>
+
       <div class="process-list" id="savedList"></div>
     </div>
 
-    <!-- Rodapé: Aviso Legal e LGPD -->
+    <div class="promo-card">
+      <h4>🌐 Quer receber mais atualizações judiciais em tempo real?</h4>
+      <p>Acesse nossa plataforma web oficial para gerenciar seus processos e receber alertas automáticos.</p>
+      <a class="promo-link" href="https://acompanhamento-djen.web.app" target="_blank">Acessar Acompanhamento DJEN & DataJud</a>
+    </div>
+
     <footer>
       <div class="footer-disclaimer">
         ⚠️ <strong>Aviso Legal:</strong> Aplicativo em versão Beta informativa. Não substitui os diários oficiais nem produz efeitos legais de intimação.
@@ -474,11 +660,14 @@
   <div class="modal-backdrop" id="reminderModal">
     <div class="modal">
       <h3>⏰ Lembrete de Segunda a Sexta</h3>
-      <p>Configure o horário para o aplicativo lembrar você de checar as publicações nos dias úteis:</p>
+      <p>Horário configurado para avisar você nos dias úteis (gerado automaticamente no seu primeiro acesso):</p>
       <div class="input-row">
-        <input type="time" id="reminderTime" value="09:00" />
-        <button id="btnSaveReminder">Ativar Alarme</button>
+        <input type="time" id="reminderTime" />
+        <button id="btnSaveReminder">Salvar Horário</button>
       </div>
+      <p style="font-size: 0.75rem; color: var(--text-muted);">
+        O lembrete emite uma notificação no dispositivo de segunda a sexta-feira.
+      </p>
       <div style="text-align: right; margin-top: 0.5rem;">
         <button class="btn-cancel" id="btnCloseReminder" style="background:#334155;">Fechar</button>
       </div>
@@ -490,7 +679,7 @@
     <div class="modal">
       <h3>Termos de Uso, Versão Beta e LGPD</h3>
       <p><strong>1. Natureza Informativa (Beta):</strong> Este aplicativo consulta as APIs públicas do DJEN (ComunicaAPI) e DataJud (CNJ). Não produz efeitos legais de intimação oficial.</p>
-      <p><strong>2. Privacidade e LGPD (Lei 13.709/2018):</strong> Os dados monitorados ficam armazenados <strong>estritamente no armazenamento local do seu dispositivo (LocalStorage)</strong>.</p>
+      <p><strong>2. Privacidade e LGPD (Lei 13.709/2018):</strong> Os dados monitorados ficam armazenados <strong>estritamente no armazenamento local do seu dispositivo (LocalStorage)</strong> em modo cache persistente.</p>
       <p><strong>3. Dados Públicos:</strong> O acesso a publicações judiciais obedece ao princípio da publicidade dos atos processuais (Art. 5º, LX e Art. 93, IX da CF/88).</p>
       <div style="text-align: right; margin-top: 0.5rem;">
         <button id="btnCloseTerms" style="background: var(--primary);">Entendido</button>
@@ -498,7 +687,30 @@
     </div>
   </div>
 
-  <!-- POPUP 3: Excluir Processo -->
+  <!-- POPUP 3: Salvar Processo com Apelido e Tag -->
+  <div class="modal-backdrop" id="saveProcessModal">
+    <div class="modal">
+      <h3>Cadastrar Processo</h3>
+      <p>Dê um apelido e selecione uma categoria para organizar seu acompanhamento:</p>
+      <div style="display:flex; flex-direction:column; gap:0.5rem;">
+        <input type="text" id="inputSaveCustomName" placeholder="Ex: Ação Trabalhista - Reclamante" />
+        <select id="selectSaveTag">
+          <option value="Geral">📂 Geral</option>
+          <option value="Urgente">🚨 Urgente</option>
+          <option value="Trabalhista">💼 Trabalhista</option>
+          <option value="Cível">⚖️ Cível</option>
+          <option value="Família">👨‍👩‍👧 Família</option>
+          <option value="Concluído">✅ Concluído</option>
+        </select>
+      </div>
+      <div style="display:flex; justify-content:flex-end; gap:0.5rem; margin-top:0.5rem;">
+        <button style="background:#334155;" id="btnCancelSave">Cancelar</button>
+        <button id="btnConfirmSave" style="background:var(--accent);">Salvar</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- POPUP 4: Excluir Processo -->
   <div class="modal-backdrop" id="deleteModal">
     <div class="modal">
       <h3 style="color: var(--danger);">Excluir Processo</h3>
@@ -515,9 +727,26 @@
     const DJEN_API_URL = 'https://comunicaapi.pje.jus.br/api/v1/comunicacao';
     const DATAJUD_API_KEY = 'cDZHYzlZa0JadVREZDJCendQbXo6TGllS0xNavigationKeyPublicaCNJ';
     const MAX_PROCESSOS = 20;
+    const PAGE_SIZE = 15;
 
     let savedProcesses = JSON.parse(localStorage.getItem('tracked_processes') || '[]');
-    let reminderConfig = JSON.parse(localStorage.getItem('app_reminder_config') || '{"enabled": false, "time": "09:00"}');
+    let currentSearchResults = [];
+    let currentPage = 1;
+    let currentTagFilter = 'Todos';
+
+    function getRandomTimeBusinessHours() {
+      const hour = Math.floor(Math.random() * (17 - 8 + 1)) + 8;
+      const minute = Math.floor(Math.random() * 60);
+      const strHour = String(hour).padStart(2, '0');
+      const strMin = String(minute).padStart(2, '0');
+      return `${strHour}:${strMin}`;
+    }
+
+    let reminderConfig = JSON.parse(localStorage.getItem('app_reminder_config') || 'null');
+    if (!reminderConfig) {
+      reminderConfig = { enabled: true, time: getRandomTimeBusinessHours() };
+      localStorage.setItem('app_reminder_config', JSON.stringify(reminderConfig));
+    }
 
     const input = document.getElementById('unifiedInput');
     const detectedTypeBadge = document.getElementById('detectedType');
@@ -528,6 +757,11 @@
     const countDisplay = document.getElementById('count');
     const reminderLabel = document.getElementById('reminderLabel');
 
+    const paginationControls = document.getElementById('paginationControls');
+    const btnPrevPage = document.getElementById('btnPrevPage');
+    const btnNextPage = document.getElementById('btnNextPage');
+    const pageInfo = document.getElementById('pageInfo');
+
     const reminderModal = document.getElementById('reminderModal');
     const termsModal = document.getElementById('termsModal');
     const deleteModal = document.getElementById('deleteModal');
@@ -535,6 +769,14 @@
     const deleteConfirmInput = document.getElementById('deleteConfirmInput');
     const btnConfirmDelete = document.getElementById('btnConfirmDelete');
     let processPendingDeletion = null;
+
+    // Modal de Cadastro
+    const saveProcessModal = document.getElementById('saveProcessModal');
+    const inputSaveCustomName = document.getElementById('inputSaveCustomName');
+    const selectSaveTag = document.getElementById('selectSaveTag');
+    const btnConfirmSave = document.getElementById('btnConfirmSave');
+    const btnCancelSave = document.getElementById('btnCancelSave');
+    let processPendingSave = null;
 
     const sleep = (ms) => new Promise(resolve => setTimeout(resolve, ms));
 
@@ -603,7 +845,7 @@
 
     async function fetchDjen(queryParams) {
       const url = new URL(DJEN_API_URL);
-      url.searchParams.append('itensPorPagina', 50);
+      url.searchParams.append('itensPorPagina', 100);
       url.searchParams.append('pagina', 1);
 
       Object.keys(queryParams).forEach(k => {
@@ -656,7 +898,7 @@
           };
         }
       } catch (e) {
-        console.warn(`DataJud (${tribunal}) indisponível ou bloqueado por CORS no browser.`);
+        console.warn(`DataJud (${tribunal}) indisponível.`);
       }
       return null;
     }
@@ -670,6 +912,7 @@
             numero: num,
             tribunal: it.nomeOrgao || it.siglaTribunal || 'Tribunal não informado',
             lastUpdate: it.dataDisponibilizacao || it.data_disponibilizacao || '',
+            tag: 'Geral',
             movimentacoesDjen: [],
             movimentacoesDatajud: []
           };
@@ -701,6 +944,7 @@
 
       statusMsg.textContent = 'Consultando DJEN e DataJud...';
       searchResultsList.innerHTML = '';
+      paginationControls.style.display = 'none';
       searchResultsArea.style.display = 'block';
 
       try {
@@ -715,6 +959,7 @@
                 numero: detection.value,
                 tribunal: djData.tribunal + ' - ' + djData.orgao,
                 lastUpdate: djData.movimentos[0] ? djData.movimentos[0].data : '',
+                tag: 'Geral',
                 movimentacoesDjen: [],
                 movimentacoesDatajud: djData.movimentos
               });
@@ -736,27 +981,84 @@
         }
 
         statusMsg.textContent = '';
-        renderProcessList(processes, searchResultsList, true);
+        currentSearchResults = processes;
+        currentPage = 1;
+        renderPaginatedSearchResults();
+
       } catch (err) {
         statusMsg.textContent = 'Erro ao consultar: ' + err.message;
       }
     });
 
+    function renderPaginatedSearchResults() {
+      const totalItems = currentSearchResults.length;
+      const totalPages = Math.ceil(totalItems / PAGE_SIZE) || 1;
+
+      const startIndex = (currentPage - 1) * PAGE_SIZE;
+      const endIndex = startIndex + PAGE_SIZE;
+      const pageItems = currentSearchResults.slice(startIndex, endIndex);
+
+      renderProcessList(pageItems, searchResultsList, true);
+
+      if (totalPages > 1) {
+        paginationControls.style.display = 'flex';
+        pageInfo.textContent = `Página ${currentPage} de ${totalPages} (${totalItems} processos)`;
+        btnPrevPage.disabled = (currentPage === 1);
+        btnNextPage.disabled = (currentPage === totalPages);
+      } else {
+        paginationControls.style.display = 'none';
+      }
+    }
+
+    btnPrevPage.addEventListener('click', () => {
+      if (currentPage > 1) {
+        currentPage--;
+        renderPaginatedSearchResults();
+        searchResultsArea.scrollIntoView({ behavior: 'smooth' });
+      }
+    });
+
+    btnNextPage.addEventListener('click', () => {
+      const totalPages = Math.ceil(currentSearchResults.length / PAGE_SIZE);
+      if (currentPage < totalPages) {
+        currentPage++;
+        renderPaginatedSearchResults();
+        searchResultsArea.scrollIntoView({ behavior: 'smooth' });
+      }
+    });
+
+    // Filtro por Tags na Lista de Salvos
+    window.filterByTag = function(tag) {
+      currentTagFilter = tag;
+      document.querySelectorAll('.tag-chip').forEach(btn => {
+        btn.classList.toggle('active', btn.textContent.includes(tag) || (tag === 'Todos' && btn.textContent === 'Todos'));
+      });
+      persistAndRender();
+    };
+
     function renderProcessList(list, targetElement, isSearchResult = false) {
       targetElement.innerHTML = '';
-      if (list.length === 0 && !isSearchResult) {
-        targetElement.innerHTML = '<p style="color: var(--text-muted); font-size: 0.85rem;">Nenhum processo salvo no momento.</p>';
+      
+      let filtered = list;
+      if (!isSearchResult && currentTagFilter !== 'Todos') {
+        filtered = list.filter(p => (p.tag || 'Geral') === currentTagFilter);
+      }
+
+      if (filtered.length === 0 && !isSearchResult) {
+        targetElement.innerHTML = '<p style="color: var(--text-muted); font-size: 0.85rem;">Nenhum processo encontrado nesta categoria.</p>';
         return;
       }
 
-      list.forEach((proc, idx) => {
+      filtered.forEach((proc, idx) => {
         const isSaved = savedProcesses.some(p => p.numero === proc.numero);
         const card = document.createElement('div');
         card.className = `process-card ${proc.hasNewUpdate ? 'has-update' : ''}`;
-        const prefix = isSearchResult ? 'sr' : 'sv';
+        const prefix = isSearchResult ? `sr_p${currentPage}` : 'sv';
         const cardId = `${prefix}_${idx}`;
 
-        const customNameHtml = proc.customName ? `<div class="custom-name">📌 ${proc.customName}</div>` : '';
+        const tagLabel = proc.tag || 'Geral';
+        const tagBadgeHtml = `<span class="tag-badge tag-${tagLabel}">${tagLabel}</span>`;
+        const customNameHtml = proc.customName ? `<div class="custom-name">📌 ${proc.customName} ${tagBadgeHtml}</div>` : `<div class="custom-name">${tagBadgeHtml}</div>`;
         const djenList = proc.movimentacoesDjen || [];
         const djList = proc.movimentacoesDatajud || [];
 
@@ -771,14 +1073,17 @@
               <div style="font-size:0.75rem; color:var(--text-muted);">${proc.tribunal} | Última pub: ${proc.lastUpdate || 'N/A'}</div>
             </div>
             <div onclick="event.stopPropagation()">
-              ${isSearchResult && !isSaved ? `<button class="btn-save" style="background:var(--accent); font-size:0.75rem;" onclick="promptSaveProcess('${encodeURIComponent(JSON.stringify(proc))}')">+ Salvar</button>` : ''}
+              ${isSearchResult && !isSaved ? `<button class="btn-save" style="background:var(--accent); font-size:0.75rem;" onclick="openSaveModal('${encodeURIComponent(JSON.stringify(proc))}')">+ Salvar</button>` : ''}
               ${!isSearchResult ? `<button style="background:transparent; color:var(--text-muted); font-size:0.8rem;" onclick="openDeleteModal('${proc.numero}')">🗑️</button>` : ''}
             </div>
           </div>
           <div class="process-details" id="${cardId}">
-            <div class="tab-bar">
-              <button class="tab-btn active" id="btn_tab_djen_${cardId}" onclick="switchTab('${cardId}', 'djen')">DJEN Publicações (${djenList.length})</button>
-              <button class="tab-btn" id="btn_tab_dj_${cardId}" onclick="switchTab('${cardId}', 'dj')">DataJud Andamentos (${djList.length})</button>
+            <div class="process-actions-top">
+              <div class="tab-bar">
+                <button class="tab-btn active" id="btn_tab_djen_${cardId}" onclick="switchTab('${cardId}', 'djen')">DJEN Publicações (${djenList.length})</button>
+                <button class="tab-btn" id="btn_tab_dj_${cardId}" onclick="switchTab('${cardId}', 'dj')">DataJud Andamentos (${djList.length})</button>
+              </div>
+              <button class="btn-pdf" onclick="exportProcessPDF('${encodeURIComponent(JSON.stringify(proc))}')">📄 Exportar / Imprimir</button>
             </div>
 
             <div id="content_djen_${cardId}">
@@ -817,6 +1122,68 @@
       });
     }
 
+    // Exportação em Relatório Limpo / PDF
+    window.exportProcessPDF = function(jsonStr) {
+      const proc = JSON.parse(decodeURIComponent(jsonStr));
+      const printWindow = window.open('', '_blank');
+      const djenList = proc.movimentacoesDjen || [];
+      const djList = proc.movimentacoesDatajud || [];
+
+      printWindow.document.write(`
+        <!DOCTYPE html>
+        <html>
+        <head>
+          <title>Relatório Processual - ${proc.numero}</title>
+          <style>
+            body { font-family: Arial, sans-serif; padding: 2rem; color: #111; line-height: 1.5; }
+            h1 { font-size: 1.4rem; border-bottom: 2px solid #2563eb; padding-bottom: 0.5rem; margin-bottom: 0.5rem; }
+            .meta { font-size: 0.9rem; color: #555; margin-bottom: 1.5rem; }
+            .section-title { font-size: 1.1rem; font-weight: bold; margin-top: 1.5rem; margin-bottom: 0.5rem; border-bottom: 1px solid #ddd; padding-bottom: 0.25rem; }
+            .item { border: 1px solid #ddd; padding: 0.75rem; border-radius: 6px; margin-bottom: 0.75rem; }
+            .item-header { font-size: 0.8rem; color: #666; display: flex; justify-content: space-between; margin-bottom: 0.35rem; }
+            .item-title { font-weight: bold; margin-bottom: 0.25rem; }
+            .item-text { font-size: 0.85rem; white-space: pre-wrap; }
+            .disclaimer { font-size: 0.75rem; color: #888; margin-top: 2rem; border-top: 1px solid #ddd; padding-top: 0.5rem; text-align: center; }
+          </style>
+        </head>
+        <body>
+          <h1>Relatório de Acompanhamento Processual</h1>
+          <div class="meta">
+            <strong>Processo:</strong> ${proc.numero}<br>
+            <strong>Identificação:</strong> ${proc.customName || 'Sem identificação'} (${proc.tag || 'Geral'})<br>
+            <strong>Tribunal / Órgão:</strong> ${proc.tribunal}<br>
+            <strong>Data da Emissão:</strong> ${new Date().toLocaleDateString('pt-BR')}
+          </div>
+
+          <div class="section-title">Publicações e Intimações no DJEN (${djenList.length})</div>
+          ${djenList.length === 0 ? '<p style="font-size:0.85rem; color:#777;">Nenhuma publicação registrada.</p>' : ''}
+          ${djenList.map(m => `
+            <div class="item">
+              <div class="item-header"><span>Disponibilização: ${m.data}</span><span>${m.orgao}</span></div>
+              <div class="item-text">${m.texto}</div>
+            </div>
+          `).join('')}
+
+          <div class="section-title">Andamentos Internos - DataJud (${djList.length})</div>
+          ${djList.length === 0 ? '<p style="font-size:0.85rem; color:#777;">Nenhum andamento interno registrado.</p>' : ''}
+          ${djList.map(m => `
+            <div class="item">
+              <div class="item-header"><span>Data: ${m.data}</span><span>Fonte: DataJud</span></div>
+              <div class="item-title">${m.nome}</div>
+              ${m.complemento ? `<div style="font-size:0.8rem; color:#555;">${m.complemento}</div>` : ''}
+            </div>
+          `).join('')}
+
+          <div class="disclaimer">
+            ⚠️ Este documento é um espelho informativo obtido via APIs públicas do CNJ (DJEN e DataJud) e não substitui os autos oficiais.
+          </div>
+          <script>window.print();<\/script>
+        </body>
+        </html>
+      `);
+      printWindow.document.close();
+    };
+
     window.switchTab = function(cardId, tab) {
       const djenContent = document.getElementById(`content_djen_${cardId}`);
       const djContent = document.getElementById(`content_dj_${cardId}`);
@@ -841,24 +1208,38 @@
       if (el) el.classList.toggle('open');
     };
 
-    window.promptSaveProcess = function(jsonStr) {
+    // Modal de Cadastro com Apelido e Tag
+    window.openSaveModal = function(jsonStr) {
       if (savedProcesses.length >= MAX_PROCESSOS) {
         alert(`Limite de ${MAX_PROCESSOS} processos atingido!`);
         return;
       }
-      const proc = JSON.parse(decodeURIComponent(jsonStr));
-      const customName = prompt('Deseja dar um apelido a este processo? (Ex: Ação Trabalhista):', '');
-      
-      if (customName !== null) {
-        proc.customName = customName.trim();
-        proc.savedAt = new Date().toISOString();
-        proc.lastKnownUpdate = proc.lastUpdate;
-        proc.hasNewUpdate = false;
-        savedProcesses.push(proc);
+      processPendingSave = JSON.parse(decodeURIComponent(jsonStr));
+      inputSaveCustomName.value = '';
+      selectSaveTag.value = 'Geral';
+      saveProcessModal.classList.add('open');
+    };
+
+    btnCancelSave.addEventListener('click', () => {
+      saveProcessModal.classList.remove('open');
+      processPendingSave = null;
+    });
+
+    btnConfirmSave.addEventListener('click', () => {
+      if (processPendingSave) {
+        processPendingSave.customName = inputSaveCustomName.value.trim();
+        processPendingSave.tag = selectSaveTag.value;
+        processPendingSave.savedAt = new Date().toISOString();
+        processPendingSave.lastKnownUpdate = processPendingSave.lastUpdate;
+        processPendingSave.hasNewUpdate = false;
+        
+        savedProcesses.push(processPendingSave);
         persistAndRender();
+        saveProcessModal.classList.remove('open');
+        processPendingSave = null;
         alert('Processo cadastrado com sucesso!');
       }
-    };
+    });
 
     window.openDeleteModal = function(numero) {
       processPendingDeletion = numero;
@@ -890,14 +1271,12 @@
     window.shareMov = function(customName, procNum, data, encodedTexto) {
       const texto = decodeURIComponent(encodedTexto);
       const title = customName ? `*Identificação:* ${customName}\n` : '';
-      const msg = `⚖️ *Atualização DJEN*\n${title}*Processo:* ${procNum}\n*Data:* ${data}\n\n*Publicação:* \n${texto.substring(0, 700)}${texto.length > 700 ? '...' : ''}`;
+      const msg = `⚖️ *Atualização DJEN & DataJud*\n${title}*Processo:* ${procNum}\n*Data:* ${data}\n\n*Publicação:* \n${texto.substring(0, 600)}${texto.length > 600 ? '...' : ''}\n\n⚠️ *Aviso:* Este texto é meramente informativo e não produz efeitos legais de intimação oficial.\n\n📲 Para acompanhar seus processos e receber atualizações judiciais, acesse: https://acompanhamento-djen.web.app`;
       window.open(`https://api.whatsapp.com/send?text=${encodeURIComponent(msg)}`, '_blank');
     };
 
     document.getElementById('btnOpenReminderModal').addEventListener('click', () => {
-      if (reminderConfig.time) {
-        document.getElementById('reminderTime').value = reminderConfig.time;
-      }
+      document.getElementById('reminderTime').value = reminderConfig.time;
       reminderModal.classList.add('open');
     });
     document.getElementById('btnCloseReminder').addEventListener('click', () => reminderModal.classList.remove('open'));
@@ -982,6 +1361,7 @@
     document.getElementById('btnOpenTerms').addEventListener('click', () => termsModal.classList.add('open'));
     document.getElementById('btnCloseTerms').addEventListener('click', () => termsModal.classList.remove('open'));
 
+    // Cache e Persistência Completa Offline
     function persistAndRender() {
       localStorage.setItem('tracked_processes', JSON.stringify(savedProcesses));
       countDisplay.textContent = savedProcesses.length;
