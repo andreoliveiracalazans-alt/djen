@@ -427,46 +427,6 @@
       color: var(--text-muted);
     }
 
-    .promo-card {
-      background: linear-gradient(135deg, #1e293b, #0f172a);
-      border: 1px solid #3b82f6;
-      border-radius: 10px;
-      padding: 1.1rem;
-      text-align: center;
-      display: flex;
-      flex-direction: column;
-      gap: 0.5rem;
-      margin-top: 0.5rem;
-    }
-
-    .promo-card h4 {
-      color: #93c5fd;
-      font-size: 1rem;
-    }
-
-    .promo-card p {
-      font-size: 0.85rem;
-      color: var(--text-muted);
-    }
-
-    .promo-link {
-      color: #fff;
-      background: var(--primary);
-      padding: 0.65rem 1.25rem;
-      border-radius: 6px;
-      text-decoration: none;
-      font-size: 0.9rem;
-      font-weight: 700;
-      align-self: center;
-      display: inline-block;
-      margin-top: 0.25rem;
-      transition: background-color 0.2s;
-    }
-
-    .promo-link:hover {
-      background: var(--primary-hover);
-    }
-
     footer {
       margin-top: 1.5rem;
       border-top: 1px solid var(--border);
@@ -602,13 +562,6 @@
       </div>
 
       <div class="process-list" id="savedList"></div>
-    </div>
-
-    <!-- Card de Instalação do Aplicativo -->
-    <div class="promo-card">
-      <h4>📲 Instale o Aplicativo Oficial</h4>
-      <p>Instale o aplicativo <strong>Acompanhamento DJEN & DataJud</strong> diretamente no seu dispositivo para receber atualizações e notificações.</p>
-      <a class="promo-link" href="https://andreoliveiracalazans-alt.github.io/djen/" target="_blank">Instalar Aplicativo</a>
     </div>
 
     <footer>
@@ -1084,7 +1037,6 @@
       });
     }
 
-    // Exportação em Relatório / PDF com Link do App no GitHub Pages
     window.exportProcessPDF = function(jsonStr) {
       const proc = JSON.parse(decodeURIComponent(jsonStr));
       const printWindow = window.open('', '_blank');
@@ -1238,7 +1190,6 @@
       }
     });
 
-    // Compartilhamento WhatsApp apontando para o site do GitHub Pages
     window.shareMov = function(customName, procNum, data, encodedTexto) {
       const texto = decodeURIComponent(encodedTexto);
       const title = customName ? `*Identificação:* ${customName}\n` : '';
