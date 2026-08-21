@@ -84,37 +84,9 @@
       text-transform: uppercase;
     }
 
-    .banner-disclaimer {
-      background: rgba(245, 158, 11, 0.08);
-      border: 1px solid rgba(245, 158, 11, 0.3);
-      padding: 0.75rem 1rem;
-      border-radius: 8px;
-      font-size: 0.8rem;
-      line-height: 1.4;
-      color: #fde68a;
+    .action-row {
       display: flex;
-      justify-content: space-between;
-      align-items: center;
-      gap: 0.5rem;
-    }
-
-    .banner-disclaimer a {
-      color: #93c5fd;
-      text-decoration: underline;
-      cursor: pointer;
-      white-space: nowrap;
-    }
-
-    .action-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
       gap: 0.75rem;
-    }
-
-    @media (max-width: 600px) {
-      .action-grid {
-        grid-template-columns: 1fr;
-      }
     }
 
     .btn-action-tool {
@@ -129,6 +101,7 @@
       align-items: center;
       justify-content: space-between;
       cursor: pointer;
+      width: 100%;
     }
 
     .btn-action-tool:hover {
@@ -146,27 +119,6 @@
       box-shadow: 0 0 15px rgba(37, 99, 235, 0.3);
       cursor: pointer;
       width: 100%;
-    }
-
-    .names-status-banner {
-      padding: 0.65rem 1rem;
-      border-radius: 8px;
-      font-size: 0.85rem;
-      display: none;
-    }
-
-    .names-status-banner.has-mov {
-      display: block;
-      background: rgba(245, 158, 11, 0.15);
-      border: 1px solid var(--warning);
-      color: #fde68a;
-    }
-
-    .names-status-banner.no-mov {
-      display: block;
-      background: #1e293b;
-      border: 1px solid var(--border);
-      color: var(--text-muted);
     }
 
     .card {
@@ -316,6 +268,29 @@
       display: flex;
     }
 
+    .tab-bar {
+      display: flex;
+      gap: 0.5rem;
+      border-bottom: 1px solid var(--border);
+      padding-bottom: 0.4rem;
+    }
+
+    .tab-btn {
+      background: transparent;
+      color: var(--text-muted);
+      border: none;
+      padding: 0.35rem 0.7rem;
+      font-size: 0.75rem;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+
+    .tab-btn.active {
+      background: #334155;
+      color: #fff;
+      font-weight: 700;
+    }
+
     .mov-item {
       background: #090e17;
       border-left: 3px solid var(--primary);
@@ -325,6 +300,11 @@
       display: flex;
       flex-direction: column;
       gap: 0.4rem;
+      margin-bottom: 0.5rem;
+    }
+
+    .mov-item.datajud-item {
+      border-left-color: var(--accent);
     }
 
     .mov-actions {
@@ -357,6 +337,32 @@
     .btn-doubt:hover {
       background: var(--wa-green);
       color: #fff;
+    }
+
+    /* Rodapé com Aviso Legal e LGPD */
+    footer {
+      margin-top: 1.5rem;
+      border-top: 1px solid var(--border);
+      padding-top: 1.25rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+      align-items: center;
+      text-align: center;
+    }
+
+    .footer-disclaimer {
+      font-size: 0.8rem;
+      line-height: 1.4;
+      color: var(--text-muted);
+      max-width: 700px;
+    }
+
+    .footer-disclaimer a {
+      color: #93c5fd;
+      text-decoration: underline;
+      cursor: pointer;
+      margin-left: 0.35rem;
     }
 
     .modal-backdrop {
@@ -401,36 +407,6 @@
       color: var(--text-muted);
       line-height: 1.45;
     }
-
-    .names-list {
-      display: flex;
-      flex-direction: column;
-      gap: 0.4rem;
-      margin-top: 0.5rem;
-    }
-
-    .name-chip-row {
-      background: var(--card-inner);
-      border: 1px solid var(--border);
-      padding: 0.5rem 0.75rem;
-      border-radius: 6px;
-      font-size: 0.85rem;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
-
-    .name-chip-row button {
-      background: transparent;
-      padding: 0.2rem 0.5rem;
-      color: var(--danger);
-      font-size: 0.85rem;
-    }
-
-    .name-chip-row button:hover {
-      background: rgba(239, 68, 68, 0.15);
-      border-radius: 4px;
-    }
   </style>
 </head>
 <body>
@@ -440,34 +416,24 @@
     <header>
       <div class="header-left">
         <button class="btn-home" id="btnHome">🏠 Home</button>
-        <h1>Acompanhamento DJEN <span class="badge-beta">Beta</span></h1>
+        <h1>Acompanhamento DJEN & DataJud <span class="badge-beta">Beta</span></h1>
       </div>
       <div style="font-size: 0.85rem; color: var(--text-muted);">
         Processos: <strong id="count" style="color: var(--accent);">0</strong>/20
       </div>
     </header>
 
-    <div class="banner-disclaimer">
-      <span>⚠️ <strong>Aviso Legal:</strong> Aplicativo em versão Beta informativa. Não substitui os diários oficiais.</span>
-      <a id="btnOpenTerms">LGPD & Termos</a>
-    </div>
-
-    <div class="action-grid">
+    <!-- Botão de Lembrete de Seg a Sex -->
+    <div class="action-row">
       <button class="btn-action-tool" id="btnOpenReminderModal">
         <span>⏰ Lembrete Seg a Sex</span>
         <span id="reminderLabel" style="font-size:0.75rem; color:var(--text-muted);">Configurar</span>
       </button>
-
-      <button class="btn-action-tool" id="btnOpenNamesModal">
-        <span>👥 Nomes para Monitorar</span>
-        <span id="namesLabel" style="font-size:0.75rem; color:var(--accent);">0/5 cadastrados</span>
-      </button>
     </div>
 
-    <div class="names-status-banner" id="namesStatusBanner"></div>
-
+    <!-- Botão de Sincronização -->
     <button class="btn-sync-prominent" id="btnSyncAll">
-      🔄 Verificar Novas Publicações Agora
+      🔄 Sincronizar DJEN & DataJud Agora
     </button>
 
     <!-- Consulta -->
@@ -494,9 +460,17 @@
       <div class="process-list" id="savedList"></div>
     </div>
 
+    <!-- Rodapé: Aviso Legal e LGPD -->
+    <footer>
+      <div class="footer-disclaimer">
+        ⚠️ <strong>Aviso Legal:</strong> Aplicativo em versão Beta informativa. Não substitui os diários oficiais nem produz efeitos legais de intimação.
+        <a id="btnOpenTerms">LGPD & Termos de Uso</a>
+      </div>
+    </footer>
+
   </div>
 
-  <!-- POPUP 1: Lembrete de Segunda a Sexta -->
+  <!-- POPUP 1: Lembrete -->
   <div class="modal-backdrop" id="reminderModal">
     <div class="modal">
       <h3>⏰ Lembrete de Segunda a Sexta</h3>
@@ -505,45 +479,26 @@
         <input type="time" id="reminderTime" value="09:00" />
         <button id="btnSaveReminder">Ativar Alarme</button>
       </div>
-      <p style="font-size: 0.75rem; color: var(--text-muted);">
-        O lembrete emite uma notificação no dispositivo de segunda a sexta-feira.
-      </p>
       <div style="text-align: right; margin-top: 0.5rem;">
         <button class="btn-cancel" id="btnCloseReminder" style="background:#334155;">Fechar</button>
       </div>
     </div>
   </div>
 
-  <!-- POPUP 2: Cadastro de até 5 Nomes -->
-  <div class="modal-backdrop" id="namesModal">
-    <div class="modal">
-      <h3>👥 Nomes para Monitoramento</h3>
-      <p>Cadastre até 5 nomes ou números de OAB para monitoramento periódico:</p>
-      <div class="input-row">
-        <input type="text" id="inputAutoName" placeholder="Ex: Nome da Parte ou 000000/XX" />
-        <button id="btnAddAutoName">+ Adicionar</button>
-      </div>
-      <div class="names-list" id="autoNamesContainer"></div>
-      <div style="text-align: right; margin-top: 0.5rem;">
-        <button id="btnCloseNames" style="background:#334155;">Concluir</button>
-      </div>
-    </div>
-  </div>
-
-  <!-- POPUP 3: LGPD & Termos Beta -->
+  <!-- POPUP 2: LGPD & Termos -->
   <div class="modal-backdrop" id="termsModal">
     <div class="modal">
       <h3>Termos de Uso, Versão Beta e LGPD</h3>
-      <p><strong>1. Natureza Informativa (Beta):</strong> Este aplicativo é uma ferramenta de apoio para conferência de dados públicos. As informações são obtidas via API pública do Diário de Justiça Eletrônico Nacional (DJEN/CNJ) e DataJud. O aplicativo <strong>NÃO produz efeitos legais de citação ou intimação processual</strong>. Prazos e atos devem ser sempre conferidos nos autos oficiais.</p>
-      <p><strong>2. Privacidade e LGPD (Lei 13.709/2018):</strong> Os dados de processos e nomes monitorados são armazenados <strong>exclusivamente no armazenamento local do seu próprio dispositivo (LocalStorage)</strong>. Não coletamos nem vendemos seus dados pessoais.</p>
+      <p><strong>1. Natureza Informativa (Beta):</strong> Este aplicativo consulta as APIs públicas do DJEN (ComunicaAPI) e DataJud (CNJ). Não produz efeitos legais de intimação oficial.</p>
+      <p><strong>2. Privacidade e LGPD (Lei 13.709/2018):</strong> Os dados monitorados ficam armazenados <strong>estritamente no armazenamento local do seu dispositivo (LocalStorage)</strong>.</p>
       <p><strong>3. Dados Públicos:</strong> O acesso a publicações judiciais obedece ao princípio da publicidade dos atos processuais (Art. 5º, LX e Art. 93, IX da CF/88).</p>
       <div style="text-align: right; margin-top: 0.5rem;">
-        <button id="btnCloseTerms" style="background: var(--primary);">Entendido e Aceito</button>
+        <button id="btnCloseTerms" style="background: var(--primary);">Entendido</button>
       </div>
     </div>
   </div>
 
-  <!-- POPUP 4: Confirmação de Exclusão de Processo -->
+  <!-- POPUP 3: Excluir Processo -->
   <div class="modal-backdrop" id="deleteModal">
     <div class="modal">
       <h3 style="color: var(--danger);">Excluir Processo</h3>
@@ -556,27 +511,12 @@
     </div>
   </div>
 
-  <!-- POPUP 5: Confirmação de Exclusão de Nome Monitorado -->
-  <div class="modal-backdrop" id="deleteNameModal">
-    <div class="modal">
-      <h3 style="color: var(--danger);">Remover Nome Monitorado</h3>
-      <p>Deseja remover <strong id="deleteTargetName" style="color:#fff;"></strong> do monitoramento?</p>
-      <p>Para confirmar a exclusão, digite a palavra <strong style="color:var(--danger);">apagar</strong> abaixo:</p>
-      <input type="text" id="deleteNameConfirmInput" placeholder="Digite 'apagar'" />
-      <div style="display:flex; justify-content:flex-end; gap:0.5rem;">
-        <button style="background:#334155;" id="btnCancelDeleteName">Cancelar</button>
-        <button id="btnConfirmDeleteName" style="background:var(--danger);" disabled>Confirmar</button>
-      </div>
-    </div>
-  </div>
-
   <script>
-    const API_URL = 'https://comunicaapi.pje.jus.br/api/v1/comunicacao';
+    const DJEN_API_URL = 'https://comunicaapi.pje.jus.br/api/v1/comunicacao';
+    const DATAJUD_API_KEY = 'cDZHYzlZa0JadVREZDJCendQbXo6TGllS0xNavigationKeyPublicaCNJ';
     const MAX_PROCESSOS = 20;
-    const MAX_NOMES_AUTO = 5;
 
     let savedProcesses = JSON.parse(localStorage.getItem('tracked_processes') || '[]');
-    let autoNames = JSON.parse(localStorage.getItem('auto_tracked_names') || '[]');
     let reminderConfig = JSON.parse(localStorage.getItem('app_reminder_config') || '{"enabled": false, "time": "09:00"}');
 
     const input = document.getElementById('unifiedInput');
@@ -586,13 +526,9 @@
     const searchResultsList = document.getElementById('searchResultsList');
     const savedList = document.getElementById('savedList');
     const countDisplay = document.getElementById('count');
-    const namesLabel = document.getElementById('namesLabel');
     const reminderLabel = document.getElementById('reminderLabel');
-    const namesStatusBanner = document.getElementById('namesStatusBanner');
-    const autoNamesContainer = document.getElementById('autoNamesContainer');
 
     const reminderModal = document.getElementById('reminderModal');
-    const namesModal = document.getElementById('namesModal');
     const termsModal = document.getElementById('termsModal');
     const deleteModal = document.getElementById('deleteModal');
     const deleteTargetNum = document.getElementById('deleteTargetNum');
@@ -600,12 +536,41 @@
     const btnConfirmDelete = document.getElementById('btnConfirmDelete');
     let processPendingDeletion = null;
 
-    // Modal de exclusão de nome
-    const deleteNameModal = document.getElementById('deleteNameModal');
-    const deleteTargetName = document.getElementById('deleteTargetName');
-    const deleteNameConfirmInput = document.getElementById('deleteNameConfirmInput');
-    const btnConfirmDeleteName = document.getElementById('btnConfirmDeleteName');
-    let nameIndexPendingDeletion = null;
+    const sleep = (ms) => new Promise(resolve => setTimeout(resolve, ms));
+
+    function extrairTribunalDatajud(numeroCnj) {
+      const limpo = numeroCnj.replace(/\D/g, '');
+      if (limpo.length !== 20) return null;
+
+      const j = limpo.substring(13, 14);
+      const tr = limpo.substring(14, 16);
+
+      const mapaTJ = {
+        '01': 'tjac', '02': 'tjal', '03': 'tjap', '04': 'tjam', '05': 'tjba',
+        '06': 'tjce', '07': 'tjdft', '08': 'tjes', '09': 'tjgo', '10': 'tjma',
+        '11': 'tjmt', '12': 'tjms', '13': 'tjmg', '14': 'tjpa', '15': 'tjpb',
+        '16': 'tjpr', '17': 'tjpe', '18': 'tjpi', '19': 'tjrj', '20': 'tjrn',
+        '21': 'tjrs', '22': 'tjro', '23': 'tjrr', '24': 'tjsc', '25': 'tjse',
+        '26': 'tjsp', '27': 'tjto'
+      };
+
+      const mapaTRF = {
+        '01': 'trf1', '02': 'trf2', '03': 'trf3', '04': 'trf4', '05': 'trf5', '06': 'trf6'
+      };
+
+      const mapaTRT = {
+        '01': 'trt1', '02': 'trt2', '03': 'trt3', '04': 'trt4', '05': 'trt5',
+        '06': 'trt6', '07': 'trt7', '08': 'trt8', '09': 'trt9', '10': 'trt10',
+        '11': 'trt11', '12': 'trt12', '13': 'trt13', '14': 'trt14', '15': 'trt15',
+        '16': 'trt16', '17': 'trt17', '18': 'trt18', '19': 'trt19', '20': 'trt20',
+        '21': 'trt21', '22': 'trt22', '23': 'trt23', '24': 'trt24'
+      };
+
+      if (j === '8') return mapaTJ[tr] || null;
+      if (j === '4') return mapaTRF[tr] || null;
+      if (j === '5') return mapaTRT[tr] || null;
+      return null;
+    }
 
     function identifyInputType(val) {
       const clean = val.trim();
@@ -636,8 +601,8 @@
       else detectedTypeBadge.textContent = 'Texto muito curto';
     });
 
-    async function fetchCommunications(queryParams) {
-      const url = new URL(API_URL);
+    async function fetchDjen(queryParams) {
+      const url = new URL(DJEN_API_URL);
       url.searchParams.append('itensPorPagina', 50);
       url.searchParams.append('pagina', 1);
 
@@ -646,9 +611,54 @@
       });
 
       const res = await fetch(url.toString(), { headers: { 'Accept': 'application/json' } });
-      if (!res.ok) throw new Error('Falha no servidor do DJEN');
+      if (!res.ok) return [];
       const data = await res.json();
       return data.items || data.comunicacoes || [];
+    }
+
+    async function fetchDataJud(numeroCnj) {
+      const tribunal = extrairTribunalDatajud(numeroCnj);
+      if (!tribunal) return null;
+
+      const cleanNum = numeroCnj.replace(/\D/g, '');
+      const url = `https://api-publica.datajud.cnj.jus.br/api_publica_${tribunal}/_search`;
+      const payload = { query: { match: { numeroProcesso: cleanNum } } };
+
+      try {
+        let data;
+        if (window.Capacitor && window.Capacitor.Plugins && window.Capacitor.Plugins.CapacitorHttp) {
+          const res = await window.Capacitor.Plugins.CapacitorHttp.post({
+            url: url,
+            headers: { 'Authorization': 'APIKey ' + DATAJUD_API_KEY, 'Content-Type': 'application/json' },
+            data: payload
+          });
+          data = res.data;
+        } else {
+          const res = await fetch(url, {
+            method: 'POST',
+            headers: { 'Authorization': 'APIKey ' + DATAJUD_API_KEY, 'Content-Type': 'application/json' },
+            body: JSON.stringify(payload)
+          });
+          data = await res.json();
+        }
+
+        if (data && data.hits && data.hits.hits && data.hits.hits.length > 0) {
+          const source = data.hits.hits[0]._source;
+          return {
+            tribunal: tribunal.toUpperCase(),
+            classe: source.classe ? source.classe.nome : '',
+            orgao: source.orgaoJulgador ? source.orgaoJulgador.nome : '',
+            movimentos: (source.movimentos || []).map(m => ({
+              data: m.dataHora ? m.dataHora.split('T')[0] : 'Data N/A',
+              nome: m.nome || 'Movimentação sem descrição',
+              complemento: m.complementosTabelados ? m.complementosTabelados.map(c => c.nome).join(' - ') : ''
+            }))
+          };
+        }
+      } catch (e) {
+        console.warn(`DataJud (${tribunal}) indisponível ou bloqueado por CORS no browser.`);
+      }
+      return null;
     }
 
     function groupByProcess(items) {
@@ -660,10 +670,11 @@
             numero: num,
             tribunal: it.nomeOrgao || it.siglaTribunal || 'Tribunal não informado',
             lastUpdate: it.dataDisponibilizacao || it.data_disponibilizacao || '',
-            movimentacoes: []
+            movimentacoesDjen: [],
+            movimentacoesDatajud: []
           };
         }
-        grouped[num].movimentacoes.push({
+        grouped[num].movimentacoesDjen.push({
           id: it.id || Math.random().toString(),
           data: it.dataDisponibilizacao || it.data_disponibilizacao || 'Data N/A',
           texto: it.texto || it.conteudo || 'Sem texto disponível.',
@@ -688,32 +699,46 @@
         return;
       }
 
-      statusMsg.textContent = 'Consultando publicações no DJEN...';
+      statusMsg.textContent = 'Consultando DJEN e DataJud...';
       searchResultsList.innerHTML = '';
       searchResultsArea.style.display = 'block';
 
       try {
-        const rawItems = await fetchCommunications(query);
-        if (rawItems.length === 0) {
+        const djenItems = await fetchDjen(query);
+        let processes = groupByProcess(djenItems);
+
+        if (detection.type === 'PROCESSO') {
+          const djData = await fetchDataJud(detection.value);
+          if (djData) {
+            if (processes.length === 0) {
+              processes.push({
+                numero: detection.value,
+                tribunal: djData.tribunal + ' - ' + djData.orgao,
+                lastUpdate: djData.movimentos[0] ? djData.movimentos[0].data : '',
+                movimentacoesDjen: [],
+                movimentacoesDatajud: djData.movimentos
+              });
+            } else {
+              processes[0].movimentacoesDatajud = djData.movimentos;
+            }
+          }
+        }
+
+        if (processes.length === 0) {
           statusMsg.textContent = '';
           searchResultsList.innerHTML = `
             <div class="empty-result-box">
-              <strong>Nenhuma publicação foi encontrada para esta busca.</strong>
-              <p style="margin-top: 0.35rem;">Motivos frequentes:</p>
-              <ul>
-                <li><strong>1. Grafia ou Parâmetro:</strong> Verifique se o nome foi digitado sem erros ou se a UF da OAB está correta.</li>
-                <li><strong>2. Ausência de Publicação Recente:</strong> Realmente não há publicações disponibilizadas para este registro no período.</li>
-              </ul>
+              <strong>Nenhuma publicação ou andamento encontrado.</strong>
+              <p style="margin-top: 0.35rem;">Verifique se os dados estão corretos ou se não há atos recentes para este registro.</p>
             </div>
           `;
           return;
         }
 
         statusMsg.textContent = '';
-        const processes = groupByProcess(rawItems);
         renderProcessList(processes, searchResultsList, true);
       } catch (err) {
-        statusMsg.textContent = 'Erro ao consultar DJEN: ' + err.message;
+        statusMsg.textContent = 'Erro ao consultar: ' + err.message;
       }
     });
 
@@ -728,16 +753,20 @@
         const isSaved = savedProcesses.some(p => p.numero === proc.numero);
         const card = document.createElement('div');
         card.className = `process-card ${proc.hasNewUpdate ? 'has-update' : ''}`;
+        const prefix = isSearchResult ? 'sr' : 'sv';
+        const cardId = `${prefix}_${idx}`;
 
         const customNameHtml = proc.customName ? `<div class="custom-name">📌 ${proc.customName}</div>` : '';
+        const djenList = proc.movimentacoesDjen || [];
+        const djList = proc.movimentacoesDatajud || [];
 
         card.innerHTML = `
-          <div class="process-header" onclick="toggleDetails('${isSearchResult ? 'sr' : 'sv'}_${idx}')">
+          <div class="process-header" onclick="toggleDetails('${cardId}')">
             <div>
               ${customNameHtml}
               <div class="process-num">
                 ${proc.numero}
-                ${proc.hasNewUpdate ? `<span class="badge-new">● Atualizado (${proc.lastUpdate})</span>` : ''}
+                ${proc.hasNewUpdate ? `<span class="badge-new">● Atualizado</span>` : ''}
               </div>
               <div style="font-size:0.75rem; color:var(--text-muted);">${proc.tribunal} | Última pub: ${proc.lastUpdate || 'N/A'}</div>
             </div>
@@ -746,29 +775,66 @@
               ${!isSearchResult ? `<button style="background:transparent; color:var(--text-muted); font-size:0.8rem;" onclick="openDeleteModal('${proc.numero}')">🗑️</button>` : ''}
             </div>
           </div>
-          <div class="process-details" id="${isSearchResult ? 'sr' : 'sv'}_${idx}">
-            ${proc.movimentacoes.map(m => `
-              <div class="mov-item">
-                <div style="display:flex; justify-content:space-between; font-size:0.75rem; color:var(--text-muted);">
-                  <span><strong>Disponibilização:</strong> ${m.data}</span>
-                  <span>${m.orgao}</span>
+          <div class="process-details" id="${cardId}">
+            <div class="tab-bar">
+              <button class="tab-btn active" id="btn_tab_djen_${cardId}" onclick="switchTab('${cardId}', 'djen')">DJEN Publicações (${djenList.length})</button>
+              <button class="tab-btn" id="btn_tab_dj_${cardId}" onclick="switchTab('${cardId}', 'dj')">DataJud Andamentos (${djList.length})</button>
+            </div>
+
+            <div id="content_djen_${cardId}">
+              ${djenList.length === 0 ? '<p style="font-size:0.8rem; color:var(--text-muted); padding:0.5rem 0;">Nenhuma publicação no DJEN.</p>' : ''}
+              ${djenList.map(m => `
+                <div class="mov-item">
+                  <div style="display:flex; justify-content:space-between; font-size:0.75rem; color:var(--text-muted);">
+                    <span><strong>Publicação:</strong> ${m.data}</span>
+                    <span>${m.orgao}</span>
+                  </div>
+                  <div style="line-height:1.4; color:#cbd5e1; white-space:pre-wrap; max-height:150px; overflow-y:auto;">${m.texto}</div>
+                  <div class="mov-actions">
+                    <button class="btn-share" onclick="shareMov('${proc.customName || ''}', '${proc.numero}', '${m.data}', \`${encodeURIComponent(m.texto)}\`)">Compartilhar</button>
+                    <a class="btn-doubt" href="https://wa.me/5521920104334?text=Ol%C3%A1%2C+preciso+de+ajuda+com+o+processo+${proc.numero}+de+data+${m.data}" target="_blank">💬 Tire sua dúvida</a>
+                  </div>
                 </div>
-                <div style="line-height:1.4; color:#cbd5e1; white-space:pre-wrap; max-height:150px; overflow-y:auto;">${m.texto}</div>
-                <div class="mov-actions">
-                  <button class="btn-share" onclick="shareMov('${proc.customName || ''}', '${proc.numero}', '${m.data}', \`${encodeURIComponent(m.texto)}\`)">
-                    Compartilhar
-                  </button>
-                  <a class="btn-doubt" href="https://wa.me/5521920104334?text=Ol%C3%A1%2C+preciso+de+ajuda+com+esta+movimenta%C3%A7%C3%A3o+do+processo+${proc.numero}+de+data+${m.data}" target="_blank">
-                    💬 Tire sua dúvida
-                  </a>
+              `).join('')}
+            </div>
+
+            <div id="content_dj_${cardId}" style="display:none;">
+              ${djList.length === 0 ? '<p style="font-size:0.8rem; color:var(--text-muted); padding:0.5rem 0;">Nenhum andamento interno retornado pelo DataJud.</p>' : ''}
+              ${djList.map(m => `
+                <div class="mov-item datajud-item">
+                  <div style="display:flex; justify-content:space-between; font-size:0.75rem; color:var(--text-muted);">
+                    <span><strong>Andamento:</strong> ${m.data}</span>
+                    <span style="color:var(--accent);">DataJud</span>
+                  </div>
+                  <div style="font-weight:600; color:#fff;">${m.nome}</div>
+                  ${m.complemento ? `<div style="font-size:0.8rem; color:var(--text-muted);">${m.complemento}</div>` : ''}
                 </div>
-              </div>
-            `).join('')}
+              `).join('')}
+            </div>
           </div>
         `;
         targetElement.appendChild(card);
       });
     }
+
+    window.switchTab = function(cardId, tab) {
+      const djenContent = document.getElementById(`content_djen_${cardId}`);
+      const djContent = document.getElementById(`content_dj_${cardId}`);
+      const djenBtn = document.getElementById(`btn_tab_djen_${cardId}`);
+      const djBtn = document.getElementById(`btn_tab_dj_${cardId}`);
+
+      if (tab === 'djen') {
+        djenContent.style.display = 'block';
+        djContent.style.display = 'none';
+        djenBtn.classList.add('active');
+        djBtn.classList.remove('active');
+      } else {
+        djenContent.style.display = 'none';
+        djContent.style.display = 'block';
+        djBtn.classList.add('active');
+        djenBtn.classList.remove('active');
+      }
+    };
 
     window.toggleDetails = function(id) {
       const el = document.getElementById(id);
@@ -794,7 +860,6 @@
       }
     };
 
-    // Modal de Exclusão de Processo
     window.openDeleteModal = function(numero) {
       processPendingDeletion = numero;
       deleteTargetNum.textContent = numero;
@@ -822,123 +887,12 @@
       }
     });
 
-    // Modal de Exclusão de Nome Monitorado
-    window.openDeleteNameModal = function(idx) {
-      nameIndexPendingDeletion = idx;
-      deleteTargetName.textContent = autoNames[idx];
-      deleteNameConfirmInput.value = '';
-      btnConfirmDeleteName.disabled = true;
-      deleteNameModal.classList.add('open');
-      deleteNameConfirmInput.focus();
-    };
-
-    deleteNameConfirmInput.addEventListener('input', () => {
-      btnConfirmDeleteName.disabled = (deleteNameConfirmInput.value.trim().toLowerCase() !== 'apagar');
-    });
-
-    document.getElementById('btnCancelDeleteName').addEventListener('click', () => {
-      deleteNameModal.classList.remove('open');
-      nameIndexPendingDeletion = null;
-    });
-
-    btnConfirmDeleteName.addEventListener('click', () => {
-      if (nameIndexPendingDeletion !== null && deleteNameConfirmInput.value.trim().toLowerCase() === 'apagar') {
-        autoNames.splice(nameIndexPendingDeletion, 1);
-        localStorage.setItem('auto_tracked_names', JSON.stringify(autoNames));
-        renderAutoNamesModal();
-        silentCheckNames();
-        deleteNameModal.classList.remove('open');
-        nameIndexPendingDeletion = null;
-      }
-    });
-
     window.shareMov = function(customName, procNum, data, encodedTexto) {
       const texto = decodeURIComponent(encodedTexto);
       const title = customName ? `*Identificação:* ${customName}\n` : '';
       const msg = `⚖️ *Atualização DJEN*\n${title}*Processo:* ${procNum}\n*Data:* ${data}\n\n*Publicação:* \n${texto.substring(0, 700)}${texto.length > 700 ? '...' : ''}`;
       window.open(`https://api.whatsapp.com/send?text=${encodeURIComponent(msg)}`, '_blank');
     };
-
-    document.getElementById('btnOpenNamesModal').addEventListener('click', () => {
-      renderAutoNamesModal();
-      namesModal.classList.add('open');
-    });
-    document.getElementById('btnCloseNames').addEventListener('click', () => namesModal.classList.remove('open'));
-
-    function renderAutoNamesModal() {
-      autoNamesContainer.innerHTML = '';
-      namesLabel.textContent = `${autoNames.length}/${MAX_NOMES_AUTO} cadastrados`;
-
-      autoNames.forEach((item, index) => {
-        const row = document.createElement('div');
-        row.className = 'name-chip-row';
-        row.innerHTML = `
-          <span>👤 ${item}</span>
-          <button onclick="openDeleteNameModal(${index})">🗑️ Apagar</button>
-        `;
-        autoNamesContainer.appendChild(row);
-      });
-    }
-
-    document.getElementById('btnAddAutoName').addEventListener('click', () => {
-      const val = document.getElementById('inputAutoName').value.trim();
-      if (!val) return;
-      if (autoNames.length >= MAX_NOMES_AUTO) {
-        alert(`Limite de ${MAX_NOMES_AUTO} nomes atingido.`);
-        return;
-      }
-      if (!autoNames.includes(val)) {
-        autoNames.push(val);
-        localStorage.setItem('auto_tracked_names', JSON.stringify(autoNames));
-        document.getElementById('inputAutoName').value = '';
-        renderAutoNamesModal();
-        silentCheckNames();
-      }
-    });
-
-    async function silentCheckNames() {
-      if (autoNames.length === 0) {
-        namesStatusBanner.style.display = 'none';
-        return;
-      }
-
-      let totalNovasPublicacoes = 0;
-
-      for (let item of autoNames) {
-        const det = identifyInputType(item);
-        let q = {};
-        if (det.type === 'OAB') { q.numeroOab = det.numero; q.ufOab = det.uf; }
-        else { q.nomeAdvogado = item; }
-
-        try {
-          const raw = await fetchCommunications(q);
-          const procs = groupByProcess(raw);
-          if (procs.length > 0) {
-            totalNovasPublicacoes += procs.length;
-            procs.forEach(p => {
-              const exists = savedProcesses.find(sp => sp.numero === p.numero);
-              if (!exists && savedProcesses.length < MAX_PROCESSOS) {
-                p.customName = `Monitorado: ${item}`;
-                p.hasNewUpdate = true;
-                savedProcesses.push(p);
-              }
-            });
-          }
-        } catch (e) {
-          console.error('Erro na checagem do nome:', item, e);
-        }
-      }
-
-      persistAndRender();
-
-      if (totalNovasPublicacoes > 0) {
-        namesStatusBanner.className = 'names-status-banner has-mov';
-        namesStatusBanner.innerHTML = `🔔 <strong>Movimentação identificada:</strong> Há publicações recentes para os nomes cadastrados.`;
-      } else {
-        namesStatusBanner.className = 'names-status-banner no-mov';
-        namesStatusBanner.innerHTML = `ℹ️ <strong>Nenhuma nova movimentação</strong> encontrada para os nomes cadastrados no momento.`;
-      }
-    }
 
     document.getElementById('btnOpenReminderModal').addEventListener('click', () => {
       if (reminderConfig.time) {
@@ -959,12 +913,10 @@
           localStorage.setItem('app_reminder_config', JSON.stringify(reminderConfig));
           updateReminderLabel();
           reminderModal.classList.remove('open');
-          alert(`Lembrete ativado para às ${timeVal} (de Segunda a Sexta)!`);
+          alert(`Lembrete ativado para às ${timeVal}!`);
         } else {
-          alert('Permissão de notificações foi negada.');
+          alert('Permissão de notificações negada.');
         }
-      } else {
-        alert('Notificações não suportadas neste navegador.');
       }
     });
 
@@ -978,50 +930,40 @@
       }
     }
 
-    function checkReminderAlarm() {
-      if (!reminderConfig.enabled) return;
-
-      const now = new Date();
-      const dayOfWeek = now.getDay();
-      
-      if (dayOfWeek >= 1 && dayOfWeek <= 5) {
-        const currentTime = now.toTimeString().substring(0, 5);
-        const lastSentDate = localStorage.getItem('last_reminder_date');
-        const todayStr = now.toISOString().split('T')[0];
-
-        if (currentTime === reminderConfig.time && lastSentDate !== todayStr) {
-          localStorage.setItem('last_reminder_date', todayStr);
-          if (Notification.permission === 'granted') {
-            new Notification('Acompanhamento DJEN', {
-              body: 'Hora de checar se saíram novas publicações e intimações nos diários de hoje!',
-              icon: 'https://cdn-icons-png.flaticon.com/512/3135/3135715.png'
-            });
-          }
-        }
-      }
-    }
-
     async function syncSavedProcesses() {
       if (savedProcesses.length === 0) return;
-      statusMsg.textContent = 'Verificando atualizações dos processos...';
+      statusMsg.textContent = 'Sincronizando DJEN e DataJud...';
 
       for (let p of savedProcesses) {
+        const numLimpo = p.numero.replace(/\D/g, '');
+
         try {
-          const raw = await fetchCommunications({ numeroProcesso: p.numero.replace(/\D/g, '') });
-          const grouped = groupByProcess(raw);
-          if (grouped.length > 0) {
-            const latest = grouped[0];
-            if (latest.lastUpdate !== p.lastKnownUpdate) {
+          const raw = await fetchDjen({ numeroProcesso: numLimpo });
+          if (raw.length > 0) {
+            const grouped = groupByProcess(raw);
+            if (grouped[0] && grouped[0].lastUpdate !== p.lastKnownUpdate) {
               p.hasNewUpdate = true;
-              p.lastUpdate = latest.lastUpdate;
-              p.movimentacoes = latest.movimentacoes;
+              p.lastUpdate = grouped[0].lastUpdate;
+              p.movimentacoesDjen = grouped[0].movimentacoesDjen;
             }
           }
         } catch (e) {
           console.error(e);
         }
+
+        try {
+          const djData = await fetchDataJud(p.numero);
+          if (djData && djData.movimentos.length > 0) {
+            p.movimentacoesDatajud = djData.movimentos;
+          }
+        } catch (e) {
+          console.error(e);
+        }
+
+        await sleep(500);
       }
-      statusMsg.textContent = 'Verificação finalizada!';
+
+      statusMsg.textContent = 'Sincronização finalizada!';
       persistAndRender();
       setTimeout(() => { if (statusMsg.textContent.includes('finalizada')) statusMsg.textContent = ''; }, 3000);
     }
@@ -1048,12 +990,7 @@
 
     persistAndRender();
     updateReminderLabel();
-    renderAutoNamesModal();
-
     syncSavedProcesses();
-    silentCheckNames();
-
-    setInterval(checkReminderAlarm, 30000);
   </script>
 </body>
 </html>
