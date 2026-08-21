@@ -207,7 +207,6 @@
       color: var(--text-muted);
     }
 
-    /* Filtro por Tags */
     .tag-filter-bar {
       display: flex;
       gap: 0.4rem;
@@ -432,7 +431,7 @@
       background: linear-gradient(135deg, #1e293b, #0f172a);
       border: 1px solid #3b82f6;
       border-radius: 10px;
-      padding: 1rem;
+      padding: 1.1rem;
       text-align: center;
       display: flex;
       flex-direction: column;
@@ -442,25 +441,26 @@
 
     .promo-card h4 {
       color: #93c5fd;
-      font-size: 0.95rem;
+      font-size: 1rem;
     }
 
     .promo-card p {
-      font-size: 0.8rem;
+      font-size: 0.85rem;
       color: var(--text-muted);
     }
 
     .promo-link {
       color: #fff;
       background: var(--primary);
-      padding: 0.5rem 1rem;
+      padding: 0.65rem 1.25rem;
       border-radius: 6px;
       text-decoration: none;
-      font-size: 0.85rem;
+      font-size: 0.9rem;
       font-weight: 700;
       align-self: center;
       display: inline-block;
       margin-top: 0.25rem;
+      transition: background-color 0.2s;
     }
 
     .promo-link:hover {
@@ -534,42 +534,6 @@
       color: var(--text-muted);
       line-height: 1.45;
     }
-
-    /* Estilos de Impressão / PDF */
-    @media print {
-      body {
-        background: #fff !important;
-        color: #000 !important;
-        padding: 0 !important;
-      }
-      header, .action-row, .btn-sync-prominent, .card, .tag-filter-bar,
-      #searchResultsArea, .promo-card, footer, .modal-backdrop, .mov-actions, .btn-pdf, .tab-bar {
-        display: none !important;
-      }
-      .container {
-        max-width: 100% !important;
-      }
-      .process-card {
-        border: none !important;
-        box-shadow: none !important;
-      }
-      .process-details {
-        display: flex !important;
-        background: transparent !important;
-        border: none !important;
-        padding: 0 !important;
-      }
-      .mov-item {
-        background: transparent !important;
-        border: 1px solid #ccc !important;
-        color: #000 !important;
-        page-break-inside: avoid;
-        margin-bottom: 1rem !important;
-      }
-      .mov-item * {
-        color: #000 !important;
-      }
-    }
   </style>
 </head>
 <body>
@@ -628,7 +592,6 @@
         <span style="font-weight: 600;">Meus Processos Cadastrados:</span>
       </div>
 
-      <!-- Barra de Filtro de Tags -->
       <div class="tag-filter-bar" id="tagFilterBar">
         <button class="tag-chip active" onclick="filterByTag('Todos')">Todos</button>
         <button class="tag-chip" onclick="filterByTag('Urgente')">🚨 Urgente</button>
@@ -641,10 +604,11 @@
       <div class="process-list" id="savedList"></div>
     </div>
 
+    <!-- Card de Instalação do Aplicativo -->
     <div class="promo-card">
-      <h4>🌐 Quer receber mais atualizações judiciais em tempo real?</h4>
-      <p>Acesse nossa plataforma web oficial para gerenciar seus processos e receber alertas automáticos.</p>
-      <a class="promo-link" href="https://acompanhamento-djen.web.app" target="_blank">Acessar Acompanhamento DJEN & DataJud</a>
+      <h4>📲 Instale o Aplicativo Oficial</h4>
+      <p>Instale o aplicativo <strong>Acompanhamento DJEN & DataJud</strong> diretamente no seu dispositivo para receber atualizações e notificações.</p>
+      <a class="promo-link" href="https://andreoliveiracalazans-alt.github.io/djen/" target="_blank">Instalar Aplicativo</a>
     </div>
 
     <footer>
@@ -770,7 +734,6 @@
     const btnConfirmDelete = document.getElementById('btnConfirmDelete');
     let processPendingDeletion = null;
 
-    // Modal de Cadastro
     const saveProcessModal = document.getElementById('saveProcessModal');
     const inputSaveCustomName = document.getElementById('inputSaveCustomName');
     const selectSaveTag = document.getElementById('selectSaveTag');
@@ -1027,7 +990,6 @@
       }
     });
 
-    // Filtro por Tags na Lista de Salvos
     window.filterByTag = function(tag) {
       currentTagFilter = tag;
       document.querySelectorAll('.tag-chip').forEach(btn => {
@@ -1122,7 +1084,7 @@
       });
     }
 
-    // Exportação em Relatório Limpo / PDF
+    // Exportação em Relatório / PDF com Link do App no GitHub Pages
     window.exportProcessPDF = function(jsonStr) {
       const proc = JSON.parse(decodeURIComponent(jsonStr));
       const printWindow = window.open('', '_blank');
@@ -1143,7 +1105,15 @@
             .item-header { font-size: 0.8rem; color: #666; display: flex; justify-content: space-between; margin-bottom: 0.35rem; }
             .item-title { font-weight: bold; margin-bottom: 0.25rem; }
             .item-text { font-size: 0.85rem; white-space: pre-wrap; }
-            .disclaimer { font-size: 0.75rem; color: #888; margin-top: 2rem; border-top: 1px solid #ddd; padding-top: 0.5rem; text-align: center; }
+            .disclaimer-box { 
+              font-size: 0.8rem; 
+              color: #444; 
+              margin-top: 2rem; 
+              border-top: 1px solid #ddd; 
+              padding-top: 0.85rem; 
+              text-align: center;
+              line-height: 1.4;
+            }
           </style>
         </head>
         <body>
@@ -1174,8 +1144,9 @@
             </div>
           `).join('')}
 
-          <div class="disclaimer">
-            ⚠️ Este documento é um espelho informativo obtido via APIs públicas do CNJ (DJEN e DataJud) e não substitui os autos oficiais.
+          <div class="disclaimer-box">
+            ⚠️ <strong>Aviso:</strong> Este texto é meramente informativo e não produz efeitos legais de intimação oficial.<br><br>
+            📲 Para instalar o aplicativo <strong>Acompanhamento DJEN & DataJud</strong> e receber atualizações, acesse: <strong>https://andreoliveiracalazans-alt.github.io/djen/</strong>
           </div>
           <script>window.print();<\/script>
         </body>
@@ -1208,7 +1179,6 @@
       if (el) el.classList.toggle('open');
     };
 
-    // Modal de Cadastro com Apelido e Tag
     window.openSaveModal = function(jsonStr) {
       if (savedProcesses.length >= MAX_PROCESSOS) {
         alert(`Limite de ${MAX_PROCESSOS} processos atingido!`);
@@ -1268,10 +1238,11 @@
       }
     });
 
+    // Compartilhamento WhatsApp apontando para o site do GitHub Pages
     window.shareMov = function(customName, procNum, data, encodedTexto) {
       const texto = decodeURIComponent(encodedTexto);
       const title = customName ? `*Identificação:* ${customName}\n` : '';
-      const msg = `⚖️ *Atualização DJEN & DataJud*\n${title}*Processo:* ${procNum}\n*Data:* ${data}\n\n*Publicação:* \n${texto.substring(0, 600)}${texto.length > 600 ? '...' : ''}\n\n⚠️ *Aviso:* Este texto é meramente informativo e não produz efeitos legais de intimação oficial.\n\n📲 Para acompanhar seus processos e receber atualizações judiciais, acesse: https://acompanhamento-djen.web.app`;
+      const msg = `⚖️ *Atualização DJEN & DataJud*\n${title}*Processo:* ${procNum}\n*Data:* ${data}\n\n*Publicação:* \n${texto.substring(0, 600)}${texto.length > 600 ? '...' : ''}\n\n⚠️ *Aviso:* Este texto é meramente informativo e não produz efeitos legais de intimação oficial.\n\n📲 Para instalar o aplicativo *Acompanhamento DJEN & DataJud* e receber atualizações judiciais, acesse: https://andreoliveiracalazans-alt.github.io/djen/`;
       window.open(`https://api.whatsapp.com/send?text=${encodeURIComponent(msg)}`, '_blank');
     };
 
@@ -1361,7 +1332,6 @@
     document.getElementById('btnOpenTerms').addEventListener('click', () => termsModal.classList.add('open'));
     document.getElementById('btnCloseTerms').addEventListener('click', () => termsModal.classList.remove('open'));
 
-    // Cache e Persistência Completa Offline
     function persistAndRender() {
       localStorage.setItem('tracked_processes', JSON.stringify(savedProcesses));
       countDisplay.textContent = savedProcesses.length;
