@@ -1,6 +1,6 @@
 {
-  "name": "Acompanhamento DJEN & DataJud",
-  "short_name": "Processos",
+  "name": "Sentinela",
+  "short_name": "Sentinela",
   "description": "Acompanhamento automático de andamentos processuais (DJEN e DataJud).",
   "lang": "pt-BR",
   "start_url": "./",

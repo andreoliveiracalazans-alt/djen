@@ -1,4 +1,4 @@
-# Acompanhamento DJEN & DataJud
+# Sentinela
 
 Aplicativo web instalável (PWA) que acompanha andamentos processuais no DJEN (ComunicaAPI) e no DataJud (CNJ).
 Aviso: caráter meramente informativo; não substitui a intimação oficial nem a contagem de prazos.
