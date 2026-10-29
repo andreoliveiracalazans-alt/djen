@@ -9,7 +9,7 @@ Aviso: caráter meramente informativo; não substitui a intimação oficial nem 
 
 ## Configuração
 - **Instalar no celular/computador:** abra https://andreoliveiracalazans-alt.github.io/djen/ e use "Adicionar à tela inicial" / "Instalar aplicativo".
-- **Lista de processos do robô:** no app, botão "🤖 Lista do robô" → copie o texto e cole em `data/processos.json` (GitHub → editar arquivo → commit). O robô roda de novo sozinho ao salvar o arquivo.
+- **Lista de processos do robô:** edite `data/processos.json` no GitHub (um item `{"numero": "0000000-00.0000.0.00.0000", "apelido": "..."}` por processo). O robô roda de novo sozinho ao salvar o arquivo.
 - **Rodar na hora:** GitHub → aba Actions → "Atualizar andamentos" → Run workflow.
 - **Chave do DataJud:** o CNJ pode trocar a chave pública. Se o DataJud parar de responder, cadastre a chave vigente (https://datajud-wiki.cnj.jus.br/api-publica/acesso) em Settings → Secrets and variables → Actions → `DATAJUD_API_KEY`.
 - O workflow agendado só roda a partir da branch padrão (`main`).
