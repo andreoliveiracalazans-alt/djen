@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Acompanhamento DJEN & DataJud</title>
+  <title>Sentinela</title>
   <link rel="manifest" href="manifest.webmanifest">
   <meta name="theme-color" content="#0b0f19">
   <link rel="icon" href="icons/icon.svg" type="image/svg+xml">
@@ -471,7 +471,7 @@
     <header>
       <div class="header-left">
         <button class="btn-home" id="btnHome">🏠 Home</button>
-        <h1>Acompanhamento DJEN & DataJud <span class="badge-beta">Beta</span></h1>
+        <h1>Sentinela <span class="badge-beta">Beta</span></h1>
       </div>
       <div style="font-size: 0.85rem; color: var(--text-muted);">
         Processos: <strong id="count" style="color: var(--accent);">0</strong>/20
@@ -1029,7 +1029,7 @@
 
           <div class="disclaimer-box">
             ⚠️ <strong>Aviso:</strong> Este texto é meramente informativo e não produz efeitos legais de intimação oficial.<br><br>
-            📲 Para instalar o aplicativo <strong>Acompanhamento DJEN & DataJud</strong> e receber atualizações, acesse: <strong>https://andreoliveiracalazans-alt.github.io/djen/</strong>
+            📲 Para instalar o aplicativo <strong>Sentinela</strong> e receber atualizações, acesse: <strong>https://andreoliveiracalazans-alt.github.io/djen/</strong>
           </div>
           <script>window.print();<\/script>
         </body>
@@ -1122,7 +1122,7 @@
     window.shareMov = function(customName, procNum, data, encodedTexto) {
       const texto = decodeURIComponent(encodedTexto);
       const title = customName ? `*Identificação:* ${customName}\n` : '';
-      const msg = `⚖️ *Atualização DJEN & DataJud*\n${title}*Processo:* ${procNum}\n*Data:* ${data}\n\n*Publicação:* \n${texto.substring(0, 600)}${texto.length > 600 ? '...' : ''}\n\n⚠️ *Aviso:* Este texto é meramente informativo e não produz efeitos legais de intimação oficial.\n\n📲 Para instalar o aplicativo *Acompanhamento DJEN & DataJud* e receber atualizações judiciais, acesse: https://andreoliveiracalazans-alt.github.io/djen/`;
+      const msg = `⚖️ *Atualização DJEN & DataJud*\n${title}*Processo:* ${procNum}\n*Data:* ${data}\n\n*Publicação:* \n${texto.substring(0, 600)}${texto.length > 600 ? '...' : ''}\n\n⚠️ *Aviso:* Este texto é meramente informativo e não produz efeitos legais de intimação oficial.\n\n📲 Para instalar o aplicativo *Sentinela* e receber atualizações judiciais, acesse: https://andreoliveiracalazans-alt.github.io/djen/`;
       window.open(`https://api.whatsapp.com/send?text=${encodeURIComponent(msg)}`, '_blank');
     };
 
@@ -1262,7 +1262,7 @@
         persistAndRender();
 
         if (novidades > 0 && 'Notification' in window && Notification.permission === 'granted') {
-          new Notification('Acompanhamento DJEN & DataJud', { body: `${novidades} processo(s) com andamento novo.`, icon: 'icons/icon-192.png' });
+          new Notification('Sentinela', { body: `${novidades} processo(s) com andamento novo.`, icon: 'icons/icon-192.png' });
         }
         return novidades;
       } catch (e) {
