@@ -213,47 +213,6 @@
       color: var(--text-muted);
     }
 
-    .tag-filter-bar {
-      display: flex;
-      gap: 0.4rem;
-      overflow-x: auto;
-      padding-bottom: 0.35rem;
-      margin-bottom: 0.75rem;
-    }
-
-    .tag-chip {
-      background: #1e293b;
-      color: var(--text-muted);
-      border: 1px solid var(--border);
-      padding: 0.3rem 0.7rem;
-      border-radius: 20px;
-      font-size: 0.75rem;
-      cursor: pointer;
-      white-space: nowrap;
-    }
-
-    .tag-chip.active {
-      background: var(--primary);
-      color: #fff;
-      border-color: var(--primary);
-      font-weight: 600;
-    }
-
-    .tag-badge {
-      font-size: 0.65rem;
-      padding: 0.15rem 0.45rem;
-      border-radius: 4px;
-      font-weight: 600;
-      text-transform: uppercase;
-      margin-left: 0.35rem;
-    }
-    .tag-Geral { background: #334155; color: #f8fafc; }
-    .tag-Urgente { background: #7f1d1d; color: #fecaca; }
-    .tag-Trabalhista { background: #065f46; color: #a7f3d0; }
-    .tag-Cível { background: #1e3a8a; color: #bfdbfe; }
-    .tag-Família { background: #831843; color: #fbcfe8; }
-    .tag-Concluído { background: #374151; color: #9ca3af; }
-
     .process-list {
       display: flex;
       flex-direction: column;
@@ -528,7 +487,7 @@
     </div>
 
     <button class="btn-sync-prominent" id="btnSyncAll">
-      🔄 Sincronizar DJEN & DataJud Agora
+      🔄 Sincronizar
     </button>
 
     <div class="card">
@@ -560,15 +519,6 @@
     <div>
       <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem;">
         <span style="font-weight: 600;">Meus Processos Cadastrados:</span>
-      </div>
-
-      <div class="tag-filter-bar" id="tagFilterBar">
-        <button class="tag-chip active" onclick="filterByTag('Todos')">Todos</button>
-        <button class="tag-chip" onclick="filterByTag('Urgente')">🚨 Urgente</button>
-        <button class="tag-chip" onclick="filterByTag('Trabalhista')">💼 Trabalhista</button>
-        <button class="tag-chip" onclick="filterByTag('Cível')">⚖️ Cível</button>
-        <button class="tag-chip" onclick="filterByTag('Família')">👨‍👩‍👧 Família</button>
-        <button class="tag-chip" onclick="filterByTag('Concluído')">✅ Concluído</button>
       </div>
 
       <div class="process-list" id="savedList"></div>
@@ -614,21 +564,13 @@
     </div>
   </div>
 
-  <!-- POPUP 3: Salvar Processo com Apelido e Tag -->
+  <!-- POPUP 3: Salvar Processo com Apelido -->
   <div class="modal-backdrop" id="saveProcessModal">
     <div class="modal">
       <h3>Cadastrar Processo</h3>
-      <p>Dê um apelido e selecione uma categoria para organizar seu acompanhamento:</p>
+      <p>Dê um apelido para identificar seu acompanhamento:</p>
       <div style="display:flex; flex-direction:column; gap:0.5rem;">
         <input type="text" id="inputSaveCustomName" placeholder="Ex: Ação Trabalhista - Reclamante" />
-        <select id="selectSaveTag">
-          <option value="Geral">📂 Geral</option>
-          <option value="Urgente">🚨 Urgente</option>
-          <option value="Trabalhista">💼 Trabalhista</option>
-          <option value="Cível">⚖️ Cível</option>
-          <option value="Família">👨‍👩‍👧 Família</option>
-          <option value="Concluído">✅ Concluído</option>
-        </select>
       </div>
       <div style="display:flex; justify-content:flex-end; gap:0.5rem; margin-top:0.5rem;">
         <button style="background:#334155;" id="btnCancelSave">Cancelar</button>
@@ -675,7 +617,6 @@
     let savedProcesses = JSON.parse(localStorage.getItem('tracked_processes') || '[]');
     let currentSearchResults = [];
     let currentPage = 1;
-    let currentTagFilter = 'Todos';
 
     function getRandomTimeBusinessHours() {
       const hour = Math.floor(Math.random() * (17 - 8 + 1)) + 8;
@@ -715,7 +656,6 @@
 
     const saveProcessModal = document.getElementById('saveProcessModal');
     const inputSaveCustomName = document.getElementById('inputSaveCustomName');
-    const selectSaveTag = document.getElementById('selectSaveTag');
     const btnConfirmSave = document.getElementById('btnConfirmSave');
     const btnCancelSave = document.getElementById('btnCancelSave');
     let processPendingSave = null;
@@ -854,7 +794,6 @@
             numero: num,
             tribunal: it.nomeOrgao || it.siglaTribunal || 'Tribunal não informado',
             lastUpdate: it.dataDisponibilizacao || it.data_disponibilizacao || '',
-            tag: 'Geral',
             movimentacoesDjen: [],
             movimentacoesDatajud: []
           };
@@ -901,7 +840,6 @@
                 numero: detection.value,
                 tribunal: djData.tribunal + ' - ' + djData.orgao,
                 lastUpdate: djData.movimentos[0] ? djData.movimentos[0].data : '',
-                tag: 'Geral',
                 movimentacoesDjen: [],
                 movimentacoesDatajud: djData.movimentos
               });
@@ -969,24 +907,13 @@
       }
     });
 
-    window.filterByTag = function(tag) {
-      currentTagFilter = tag;
-      document.querySelectorAll('.tag-chip').forEach(btn => {
-        btn.classList.toggle('active', btn.textContent.includes(tag) || (tag === 'Todos' && btn.textContent === 'Todos'));
-      });
-      persistAndRender();
-    };
-
     function renderProcessList(list, targetElement, isSearchResult = false) {
       targetElement.innerHTML = '';
       
-      let filtered = list;
-      if (!isSearchResult && currentTagFilter !== 'Todos') {
-        filtered = list.filter(p => (p.tag || 'Geral') === currentTagFilter);
-      }
+      const filtered = list;
 
       if (filtered.length === 0 && !isSearchResult) {
-        targetElement.innerHTML = '<p style="color: var(--text-muted); font-size: 0.85rem;">Nenhum processo encontrado nesta categoria.</p>';
+        targetElement.innerHTML = '<p style="color: var(--text-muted); font-size: 0.85rem;">Nenhum processo cadastrado.</p>';
         return;
       }
 
@@ -997,9 +924,7 @@
         const prefix = isSearchResult ? `sr_p${currentPage}` : 'sv';
         const cardId = `${prefix}_${idx}`;
 
-        const tagLabel = proc.tag || 'Geral';
-        const tagBadgeHtml = `<span class="tag-badge tag-${tagLabel}">${tagLabel}</span>`;
-        const customNameHtml = proc.customName ? `<div class="custom-name">📌 ${proc.customName} ${tagBadgeHtml}</div>` : `<div class="custom-name">${tagBadgeHtml}</div>`;
+        const customNameHtml = proc.customName ? `<div class="custom-name">📌 ${proc.customName}</div>` : '';
         const djenList = proc.movimentacoesDjen || [];
         const djList = proc.movimentacoesDatajud || [];
 
@@ -1098,7 +1023,7 @@
           <h1>Relatório de Acompanhamento Processual</h1>
           <div class="meta">
             <strong>Processo:</strong> ${proc.numero}<br>
-            <strong>Identificação:</strong> ${proc.customName || 'Sem identificação'} (${proc.tag || 'Geral'})<br>
+            <strong>Identificação:</strong> ${proc.customName || 'Sem identificação'}<br>
             <strong>Tribunal / Órgão:</strong> ${proc.tribunal}<br>
             <strong>Data da Emissão:</strong> ${new Date().toLocaleDateString('pt-BR')}
           </div>
@@ -1164,7 +1089,6 @@
       }
       processPendingSave = JSON.parse(decodeURIComponent(jsonStr));
       inputSaveCustomName.value = '';
-      selectSaveTag.value = 'Geral';
       saveProcessModal.classList.add('open');
     };
 
@@ -1176,7 +1100,6 @@
     btnConfirmSave.addEventListener('click', () => {
       if (processPendingSave) {
         processPendingSave.customName = inputSaveCustomName.value.trim();
-        processPendingSave.tag = selectSaveTag.value;
         processPendingSave.savedAt = new Date().toISOString();
         processPendingSave.lastKnownUpdate = processPendingSave.lastUpdate;
         processPendingSave.hasNewUpdate = false;
@@ -1259,7 +1182,7 @@
 
     async function syncSavedProcesses() {
       if (savedProcesses.length === 0) return;
-      statusMsg.textContent = 'Sincronizando DJEN e DataJud...';
+      statusMsg.textContent = 'Sincronizando...';
 
       for (let p of savedProcesses) {
         const numLimpo = p.numero.replace(/\D/g, '');
@@ -1343,7 +1266,6 @@
             p = {
               numero: r.numero,
               customName: r.customName || '',
-              tag: r.tag || 'Geral',
               savedAt: new Date().toISOString(),
               lastKnownUpdate: r.lastUpdate,
               hasNewUpdate: false
@@ -1375,7 +1297,7 @@
 
     function listaParaRobo() {
       return JSON.stringify({
-        processos: savedProcesses.map(p => ({ numero: p.numero, apelido: p.customName || '', tag: p.tag || 'Geral' }))
+        processos: savedProcesses.map(p => ({ numero: p.numero, apelido: p.customName || '' }))
       }, null, 2);
     }
 
