@@ -1,0 +1,42 @@
+name: Atualizar andamentos
+
+on:
+  schedule:
+    # 09:00 UTC = 06:00 em Brasília, de segunda a sexta (o GitHub pode atrasar alguns minutos).
+    - cron: '0 9 * * 1-5'
+  workflow_dispatch:
+  push:
+    paths:
+      - 'data/processos.json'
+
+permissions:
+  contents: write
+
+concurrency:
+  group: atualizar-andamentos
+  cancel-in-progress: false
+
+jobs:
+  atualizar:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - name: Consultar DJEN e DataJud
+        env:
+          # Opcional: chave vigente do DataJud (Settings > Secrets and variables > Actions).
+          DATAJUD_API_KEY: ${{ secrets.DATAJUD_API_KEY }}
+        run: node scripts/atualizar.mjs
+      - name: Gravar resultado
+        run: |
+          git config user.name "robo-andamentos"
+          git config user.email "robo-andamentos@users.noreply.github.com"
+          git add data/andamentos.json
+          if git diff --cached --quiet; then
+            echo "Sem mudanças."
+          else
+            git commit -m "Atualiza andamentos ($(date -u +%Y-%m-%dT%H:%MZ))"
+            git push
+          fi
