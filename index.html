@@ -114,17 +114,20 @@
       border-color: var(--primary);
     }
 
-    .btn-sync-prominent {
+    .btn-sync-icon {
       background: linear-gradient(135deg, #2563eb, #1d4ed8);
       color: #fff;
-      font-size: 0.95rem;
-      padding: 0.75rem 1.25rem;
-      font-weight: 700;
-      border-radius: 8px;
+      font-size: 1.2rem;
+      width: 2.6rem;
+      height: 2.6rem;
+      border-radius: 50%;
       border: 1px solid rgba(255, 255, 255, 0.2);
       box-shadow: 0 0 15px rgba(37, 99, 235, 0.3);
       cursor: pointer;
-      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0;
     }
 
     .card {
@@ -480,15 +483,7 @@
         <span>⏰ Lembrete Seg a Sex</span>
         <span id="reminderLabel" style="font-size:0.75rem; color:var(--text-muted);">Configurar</span>
       </button>
-      <button class="btn-action-tool" id="btnOpenRobotModal">
-        <span>🤖 Lista do robô</span>
-        <span id="robotLabel" style="font-size:0.75rem; color:var(--text-muted);">Sem dados</span>
-      </button>
     </div>
-
-    <button class="btn-sync-prominent" id="btnSyncAll">
-      🔄 Sincronizar
-    </button>
 
     <div class="card">
       <div class="card-title"><span>🔍 Consulta</span></div>
@@ -519,6 +514,7 @@
     <div>
       <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem;">
         <span style="font-weight: 600;">Meus Processos Cadastrados:</span>
+        <button class="btn-sync-icon" id="btnSyncAll" title="Sincronizar" aria-label="Sincronizar">🔄</button>
       </div>
 
       <div class="process-list" id="savedList"></div>
@@ -575,22 +571,6 @@
       <div style="display:flex; justify-content:flex-end; gap:0.5rem; margin-top:0.5rem;">
         <button style="background:#334155;" id="btnCancelSave">Cancelar</button>
         <button id="btnConfirmSave" style="background:var(--accent);">Salvar</button>
-      </div>
-    </div>
-  </div>
-
-  <!-- POPUP 5: Lista do robô (busca automática diária) -->
-  <div class="modal-backdrop" id="robotModal">
-    <div class="modal">
-      <h3>🤖 Busca automática diária</h3>
-      <p>Todo dia útil, por volta das 6h, um robô consulta o DJEN e o DataJud e deixa os andamentos prontos. Ao abrir o aplicativo você já os vê. Ele consulta os processos listados em <strong>data/processos.json</strong>.</p>
-      <p id="robotStatus" style="font-size:0.8rem; color: var(--text-muted);"></p>
-      <p style="font-size:0.8rem; color: var(--text-muted);">Para o robô acompanhar os processos que você salvou aqui: copie o texto abaixo e cole no arquivo <strong>data/processos.json</strong> no GitHub (substituindo o conteúdo).</p>
-      <textarea id="robotJson" readonly rows="8" style="width:100%; background: var(--card-inner); color: var(--text); border:1px solid var(--border); border-radius:6px; padding:0.5rem; font-family: monospace; font-size:0.75rem;"></textarea>
-      <div style="display:flex; justify-content:flex-end; gap:0.5rem; margin-top:0.5rem; flex-wrap:wrap;">
-        <button style="background:#334155;" id="btnCloseRobot">Fechar</button>
-        <button id="btnCopyRobot">Copiar lista</button>
-        <a id="btnEditRobot" href="https://github.com/andreoliveiracalazans-alt/djen/edit/main/data/processos.json" target="_blank" rel="noopener" style="background: var(--accent); color:#fff; padding:0.5rem 0.9rem; border-radius:6px; text-decoration:none; font-size:0.85rem;">Abrir arquivo no GitHub</a>
       </div>
     </div>
   </div>
@@ -1241,8 +1221,6 @@
 
     // ---------- Busca automática diária (robô) + PWA ----------
     const digitos = (n) => String(n || '').replace(/\D/g, '');
-    const robotLabel = document.getElementById('robotLabel');
-    const robotModal = document.getElementById('robotModal');
     let robotGeradoEm = null;
 
     function formatarDataHora(iso) {
@@ -1282,8 +1260,6 @@
         });
 
         persistAndRender();
-        robotLabel.textContent = 'Atualizado ' + formatarDataHora(robotGeradoEm);
-        robotLabel.style.color = 'var(--accent)';
 
         if (novidades > 0 && 'Notification' in window && Notification.permission === 'granted') {
           new Notification('Acompanhamento DJEN & DataJud', { body: `${novidades} processo(s) com andamento novo.`, icon: 'icons/icon-192.png' });
@@ -1294,26 +1270,6 @@
         return 0;
       }
     }
-
-    function listaParaRobo() {
-      return JSON.stringify({
-        processos: savedProcesses.map(p => ({ numero: p.numero, apelido: p.customName || '' }))
-      }, null, 2);
-    }
-
-    document.getElementById('btnOpenRobotModal').addEventListener('click', () => {
-      document.getElementById('robotJson').value = listaParaRobo();
-      document.getElementById('robotStatus').textContent = robotGeradoEm
-        ? 'Última busca do robô: ' + formatarDataHora(robotGeradoEm)
-        : 'O robô ainda não rodou. Depois de colar a lista, ele roda no próximo dia útil de manhã (ou manualmente na aba Actions do GitHub).';
-      robotModal.classList.add('open');
-    });
-    document.getElementById('btnCloseRobot').addEventListener('click', () => robotModal.classList.remove('open'));
-    document.getElementById('btnCopyRobot').addEventListener('click', async () => {
-      const area = document.getElementById('robotJson');
-      try { await navigator.clipboard.writeText(area.value); alert('Lista copiada!'); }
-      catch (e) { area.select(); document.execCommand('copy'); }
-    });
 
     if ('serviceWorker' in navigator) {
       window.addEventListener('load', () => navigator.serviceWorker.register('sw.js').catch(() => {}));
